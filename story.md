@@ -16,3 +16,5 @@ block
 ## notes
 
 1- dont fetch entire messages
+2- use skeleton while searching for users
+https://ui.shadcn.com/docs/components/skeleton

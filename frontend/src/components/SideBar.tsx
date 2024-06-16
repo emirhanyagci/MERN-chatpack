@@ -5,8 +5,8 @@ import MenuDrawer from "./MenuDrawer";
 
 export default function SideBar() {
   return (
-    <aside className="col-span-3 border-r px-3">
-      <header className="flex items-center justify-between pt-3">
+    <aside className="col-span-3 space-y-3 border-r">
+      <header className="flex items-center justify-between px-5 pt-3">
         <div className="flex items-center gap-3">
           <MenuDrawer />
           <span className="text-xl">Messages</span>
