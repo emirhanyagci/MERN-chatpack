@@ -9,7 +9,7 @@ export default function ChatCard() {
       </Avatar>
       <div className="w-full space-y-1">
         <div className="flex justify-between">
-          <h3 className="text-base">Emirhan Yagci</h3>
+          <h3 className="text-base text-foreground">Emirhan Yagci</h3>
           <span className="text-sm text-muted-foreground">12m</span>
         </div>
         <div className="flex justify-between text-sm">

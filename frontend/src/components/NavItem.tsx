@@ -6,17 +6,14 @@ export default function NavItem({
   Icon,
   title,
   children = null,
-  onClickHandler,
 }: {
   Icon: React.ElementType;
   title: string;
   children?: React.ReactElement | null;
-  onClickHandler: React.MouseEventHandler;
 }) {
   return (
     <li>
       <Button
-        onClick={onClickHandler}
         variant="ghost"
         className="flex w-full items-center justify-between"
         asChild

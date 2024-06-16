@@ -35,7 +35,7 @@ export default function MenuDrawer() {
                   </span>
                 </div>
 
-                <div className="space-y-3 border-b pb-3">
+                <div className="space-y-3 border-b border-border pb-3">
                   <div className="flex flex-col">
                     <span className="text-muted-foreground">E-mail</span>
                     <span className="text-foreground">

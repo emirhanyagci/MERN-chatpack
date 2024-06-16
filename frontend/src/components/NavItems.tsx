@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { useTheme } from "@/Context/ThemeProvider";
 export default function NavItems() {
   const { setTheme, theme } = useTheme();
-  function darkModeHandler(isDark) {
+  function darkModeHandler(isDark: boolean) {
     setTheme(isDark ? "dark" : "light");
   }
   return (
