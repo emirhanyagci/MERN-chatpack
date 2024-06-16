@@ -1,0 +1,10 @@
+{
+  "name": "MERNchat",
+  "version": "1.0.0",
+  "scripts": {
+    "runDev": "concurrently \"cd frontend && yarn run dev\" \"cd backend && yarn run dev\""
+  },
+  "main": "index.js",
+  "author": "emirhan",
+  "license": "#"
+}
