@@ -1,5 +1,5 @@
+import CountBadge from "@/components/CountBadge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 export default function ChatCard() {
   return (
     <div className="flex gap-3 p-5 hover:bg-muted">
@@ -17,7 +17,7 @@ export default function ChatCard() {
             Hahahha , this amazingddddddd
           </span>
 
-          <Badge>2</Badge>
+          <CountBadge count={4} />
         </div>
       </div>
     </div>
