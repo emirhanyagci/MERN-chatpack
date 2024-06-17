@@ -30,9 +30,14 @@ export default function MenuDrawer() {
                     <AvatarImage src="https://github.com/shadcn.png" />
                     <AvatarFallback>EY</AvatarFallback>
                   </Avatar>
-                  <span className="text-base text-foreground">
-                    Emirhan Yagci
-                  </span>
+                  <div className="flex flex-col items-center">
+                    <span className="text-base text-foreground">
+                      Emirhan Yagci
+                    </span>
+                    <span className="text-sms lette text-muted-foreground">
+                      #11111111111
+                    </span>
+                  </div>
                 </div>
 
                 <div className="space-y-3 border-b border-border pb-3">
