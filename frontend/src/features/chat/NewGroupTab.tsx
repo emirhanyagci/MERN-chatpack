@@ -13,7 +13,7 @@ export default function NewGroupTab() {
     console.log(user);
   }
   return (
-    <div className="space-y-3 text-foreground">
+    <div className="space-y-3">
       <h1 className="text-xl">Create New Group</h1>
       <div className="space-y-3">
         <div className="space-y-2">

@@ -1,5 +1,4 @@
 import { Menu } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   Sheet,
@@ -10,6 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import NavItems from "./NavItems";
+import UserAvatar from "@/features/user/UserAvatar";
 
 export default function MenuDrawer() {
   return (
@@ -26,10 +26,12 @@ export default function MenuDrawer() {
             <div>
               <div className="space-y-5">
                 <div className="flex flex-col items-center justify-center gap-2">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>EY</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar
+                    size={24}
+                    src="https://github.com/shadcn.png"
+                    fallback="EY"
+                  />
+
                   <div className="flex flex-col items-center">
                     <span className="text-base text-foreground">
                       Emirhan Yagci

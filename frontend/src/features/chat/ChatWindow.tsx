@@ -1,5 +1,13 @@
-import React from "react";
+import ChatWindowHeader from "@/features/chat/ChatWindowHeader";
+import ChatMessagesWrapper from "./ChatMessagesWrapper";
+import ChatInput from "./ChatInput";
 
 export default function ChatWindow() {
-  return <div>ChatWindow</div>;
+  return (
+    <section>
+      <ChatWindowHeader />
+      <ChatMessagesWrapper />
+      <ChatInput />
+    </section>
+  );
 }

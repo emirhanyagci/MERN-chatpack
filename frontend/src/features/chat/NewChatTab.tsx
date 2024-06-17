@@ -12,7 +12,7 @@ export default function NewChatTab() {
     setSelectedUserId(userId);
   }
   return (
-    <div className="space-y-4 text-foreground">
+    <div className="space-y-4">
       <h1 className="text-xl">Create New Chat</h1>
       <Input type="text" placeholder="Type id or username" />
       <ScrollArea>
