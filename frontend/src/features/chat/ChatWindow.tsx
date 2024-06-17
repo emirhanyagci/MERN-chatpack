@@ -11,3 +11,4 @@ export default function ChatWindow() {
     </section>
   );
 }
+// CHAT YOKSA NO CHAT PLACEHOLDER BURADA GOSTER

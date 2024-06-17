@@ -15,7 +15,7 @@ export default function MenuDrawer() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Menu className="text-primary" />
+        <Menu className="cursor-pointer text-primary" />
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader>

@@ -47,7 +47,13 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
+}
+
+@layer base {
+  * {
+    @apply border-border font-poppins;
+  }
   body {
-    @apply bg-primary font-poppins text-foreground;
+    @apply bg-background text-foreground;
   }
 }

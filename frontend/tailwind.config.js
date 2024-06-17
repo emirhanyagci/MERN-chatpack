@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+const safelist = ["h-24", "w-24", "w-9", "h-9"];
 module.exports = {
+  safelist,
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -7,12 +9,8 @@ module.exports = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
-
   prefix: "",
   theme: {
-    fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-    },
     container: {
       center: true,
       padding: "2rem",
@@ -21,6 +19,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        poppins: ["Poppins", "Sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

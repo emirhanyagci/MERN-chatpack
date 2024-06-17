@@ -1,17 +1,11 @@
 import UserAvatar from "@/features/user/UserAvatar";
 import UserActiveStatus from "@/features/user/UserActiveStatus";
-import { Phone, EllipsisVertical, Undo2 } from "lucide-react";
+import { Phone, EllipsisVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export default function ChatWindowHeader() {
   return (
     <header className="flex items-center justify-between border-b border-border p-5">
       <div className="flex items-center gap-3">
-        <Button
-          className="aspect-square rounded-full p-1 md:hidden"
-          variant="ghost"
-        >
-          <Undo2 className="text-primary" />
-        </Button>
         <UserAvatar src="https://github.com/shadcn.png" fallback="EY" />
         <div className="flex flex-col">
           <h2>Emirhan Yagci</h2>

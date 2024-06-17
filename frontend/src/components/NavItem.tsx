@@ -5,6 +5,7 @@ const iconSize = 20;
 export default function NavItem({
   Icon,
   title,
+
   children = null,
 }: {
   Icon: React.ElementType;
