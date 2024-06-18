@@ -9,12 +9,13 @@ export default function TextItem({
 }) {
   return (
     <li
-      className={`flex items-center justify-end gap-3 ${standLeft ? "flex-row-reverse" : ""}`}
+      className={`flex items-start justify-end gap-3 ${standLeft ? "flex-row-reverse" : ""}`}
     >
       <div
-        className={`rounded-lg p-2 text-sm ${standLeft ? "bg-muted text-foreground" : "bg-primary text-muted"}`}
+        className={`max-w-64 rounded-lg p-2 text-sm ${standLeft ? "bg-muted text-foreground" : "bg-primary text-muted"}`}
       >
-        asd
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis aut
+        distinctio dolorem quis hic dolores laborum totam nisi soluta eum!
       </div>
       <div className="h-9 w-9">
         {withImage && (

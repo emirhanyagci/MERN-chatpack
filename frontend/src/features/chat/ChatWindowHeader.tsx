@@ -1,7 +1,8 @@
 import UserAvatar from "@/features/user/UserAvatar";
 import UserActiveStatus from "@/features/user/UserActiveStatus";
-import { Phone, EllipsisVertical } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import UserInfoModal from "@/features/user/UserInfoModal";
 export default function ChatWindowHeader() {
   return (
     <header className="flex items-center justify-between border-b border-border p-5">
@@ -13,16 +14,11 @@ export default function ChatWindowHeader() {
         </div>
       </div>
       <div className="flex">
-        <Button variant="ghost" className="flex gap-2 text-primary">
+        <Button disabled variant="ghost" className="flex gap-2 text-primary">
           <Phone size={18} className="fill-primary text-primary" />
           <span className="text-primary"> Call</span>
         </Button>
-        <Button
-          variant="ghost"
-          className="flex aspect-square gap-2 rounded-full p-1 text-primary"
-        >
-          <EllipsisVertical size={18} className="fill-primary text-primary" />
-        </Button>
+        <UserInfoModal />
       </div>
     </header>
   );
