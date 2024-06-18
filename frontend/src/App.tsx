@@ -23,9 +23,9 @@ function App() {
 
             <Route index element={<ChatWindowPlaceholder />}></Route>
 
-            <Route path=":chatId" element={<ChatWindow />}></Route>
             <Route path="settings" element={<SettingsWindow />}></Route>
             <Route path="privacy" element={<PrivacyWindow />}></Route>
+            <Route path=":chatId" element={<ChatWindow />}></Route>
           </Route>
         </Route>
       </Routes>

@@ -1,10 +1,12 @@
 import ChatWindowHeader from "@/features/chat/ChatWindowHeader";
 import ChatMessagesWrapper from "./ChatMessagesWrapper";
 import ChatInput from "./ChatInput";
+import MainNavBar from "@/components/MainNavBar";
 
 export default function ChatWindow() {
   return (
-    <section>
+    <section className="flex h-full flex-col">
+      <MainNavBar />
       <ChatWindowHeader />
       <ChatMessagesWrapper />
       <ChatInput />

@@ -17,4 +17,11 @@ block
 
 1- dont fetch entire messages
 2- use skeleton while searching for users
+3- User can send image-files!
+4- create issue for shadcn for sheet border color bugging on dark mode (i added left one to border-border)
+5- maybe you can add report user
+6- make scrolable to modals
+7 maybe you can add friends logic
+8 - user can prevent them add to group
+add search functionality
 https://ui.shadcn.com/docs/components/skeleton
