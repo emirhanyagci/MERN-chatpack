@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import UserAvatar from "@/features/user/UserAvatar";
+import Avatar from "@/components/Avatar";
 import { Undo2 } from "lucide-react";
 import MenuDrawer from "./MenuDrawer";
 import { Link } from "react-router-dom";
@@ -12,11 +12,7 @@ export default function MainNavBar() {
         </Button>
       </Link>
       <div className="flex items-center gap-2">
-        <UserAvatar
-          size={9}
-          src="https://github.com/shadcn.png"
-          fallback="EY"
-        />
+        <Avatar size={9} src="https://github.com/shadcn.png" fallback="EY" />
         <MenuDrawer />
       </div>
     </nav>

@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import NavItems from "./NavItems";
-import UserAvatar from "@/features/user/UserAvatar";
+import Avatar from "@/components/Avatar";
 
 export default function MenuDrawer() {
   return (
@@ -26,7 +26,7 @@ export default function MenuDrawer() {
             <div>
               <div className="space-y-5">
                 <div className="flex flex-col items-center justify-center gap-2">
-                  <UserAvatar
+                  <Avatar
                     size={24}
                     src="https://github.com/shadcn.png"
                     fallback="EY"

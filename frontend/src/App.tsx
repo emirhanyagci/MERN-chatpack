@@ -15,7 +15,7 @@ function App() {
   return (
     <ThemeProvider>
       <Routes>
-        <Route path="/login"></Route>
+        <Route path="/login" element={<h1>Kayit ol</h1>}></Route>
         <Route path="/signup"></Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />}>

@@ -1,10 +1,10 @@
 import CountBadge from "@/components/CountBadge";
-import UserAvatar from "@/features/user/UserAvatar";
+import Avatar from "@/components/Avatar";
 
 export default function ChatCard() {
   return (
     <div className="flex gap-3 p-5 hover:bg-muted">
-      <UserAvatar src="https://github.com/shadcn.png" fallback="EY" />
+      <Avatar src="https://github.com/shadcn.png" fallback="EY" />
 
       <div className="w-full space-y-1">
         <div className="flex justify-between">

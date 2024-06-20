@@ -1,4 +1,4 @@
-import UserAvatar from "@/features/user/UserAvatar";
+import Avatar from "@/components/Avatar";
 
 export default function TextItem({
   standLeft,
@@ -19,11 +19,7 @@ export default function TextItem({
       </div>
       <div className="h-9 w-9">
         {withImage && (
-          <UserAvatar
-            size={9}
-            src="https://github.com/shadcn.png"
-            fallback="EY"
-          />
+          <Avatar size={9} src="https://github.com/shadcn.png" fallback="EY" />
         )}
       </div>
     </li>

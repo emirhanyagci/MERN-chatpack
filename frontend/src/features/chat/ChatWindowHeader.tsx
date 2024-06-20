@@ -1,4 +1,4 @@
-import UserAvatar from "@/features/user/UserAvatar";
+import Avatar from "@/components/Avatar";
 import UserActiveStatus from "@/features/user/UserActiveStatus";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ export default function ChatWindowHeader() {
   return (
     <header className="flex items-center justify-between border-b border-border p-5">
       <div className="flex items-center gap-3">
-        <UserAvatar src="https://github.com/shadcn.png" fallback="EY" />
+        <Avatar src="https://github.com/shadcn.png" fallback="EY" />
         <div className="flex flex-col">
           <h2>Emirhan Yagci</h2>
           <UserActiveStatus />
