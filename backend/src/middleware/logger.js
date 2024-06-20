@@ -3,6 +3,7 @@ const { v4: UUID } = require("uuid");
 const path = require("path");
 const fs = require("fs");
 const fsPromise = require("fs/promises");
+
 const logEvents = async (message, logFileName) => {
   const logDate = format(new Date(), "MM/dd/yyyy\t H:m");
   const logItem = `${logDate} \t ${UUID()} \t ${message} \n`;
@@ -19,11 +20,13 @@ const logEvents = async (message, logFileName) => {
 };
 
 const logger = (req, res, next) => {
-  logEvents(`${req.method} \t ${req.url} \t ${req.headers.host}`, "reqLog.log");
+  logEvents(
+    `${req.method} \t ${req.url} \t ${req.headers.origin}`,
+    "reqLog.log"
+  );
   console.log(`${req.method} \t ${req.url} \t ${req.headers.origin}`);
   next();
 };
-
 module.exports = {
   logger,
   logEvents,
