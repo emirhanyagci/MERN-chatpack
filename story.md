@@ -23,6 +23,7 @@ block
 8 - user can prevent them add to group
 add search functionality
 9- add add user button to group info
+10 - maybe you can add readed-sended logic
 
 ## todos
 

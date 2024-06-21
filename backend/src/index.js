@@ -8,10 +8,10 @@ const { logger } = require("./middleware/logger");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static("public"));
 app.use(cors(corsOptions));
 app.use(logger);
 app.use((req, res, next) => {
-  throw new Error("wowowo");
   res.send("<h1>Welcome my page</h1>");
 });
 app.use(require("./middleware/errorHandler"));
