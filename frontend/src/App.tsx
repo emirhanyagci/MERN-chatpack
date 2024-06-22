@@ -8,15 +8,14 @@ import SideBar from "./components/SideBar";
 import { useMediaQuery } from "react-responsive";
 import SettingsWindow from "@/features/user/SettingsWindow";
 import PrivacyWindow from "@/features/user/PrivacyWindow";
-
+import Auth from "@/pages/Auth";
 function App() {
   const isMin768px = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
     <ThemeProvider>
       <Routes>
-        <Route path="/login" element={<h1>Kayit ol</h1>}></Route>
-        <Route path="/signup"></Route>
+        <Route path="/" element={<Auth />}></Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/home" element={<Home />}>
             {!isMin768px ? <Route index element={<SideBar />}></Route> : null}
