@@ -4,7 +4,6 @@ const corsOptions = {
   origin: function (origin, callback) {
     const isDevelopment = process.env.ENV === "development" ? true : false;
     const allowEmptyOrigin = isDevelopment && !origin ? true : false;
-    console.log(123, origin);
     if (allowedOrigins.indexOf(origin) !== -1 || allowEmptyOrigin) {
       callback(null, true);
     } else {
