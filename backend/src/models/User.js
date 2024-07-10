@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
-
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 const userSchema = new mongoose.Schema({
-  chatPackId: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   username: {
+    type: String,
+    required: true,
+  },
+  password: {
     type: String,
     required: true,
   },
   email: {
     type: String,
     required: true,
+  },
+  avatarUrl: {
+    type: String,
+    default: "",
   },
   status: {
     type: String,
@@ -32,6 +35,10 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+});
+userSchema.plugin(AutoIncrement, {
+  inc_field: "chatPackId",
+  start_seq: 100000,
 });
 
 module.exports = mongoose.model("User", userSchema);
