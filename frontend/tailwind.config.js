@@ -22,6 +22,9 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins", "Sans-serif"],
       },
+      transitionDuration: {
+        3000: "3000ms",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

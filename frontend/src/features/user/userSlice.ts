@@ -1,3 +1,4 @@
+import { RootState } from "@/stores/store";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 export interface User {
@@ -31,7 +32,7 @@ export const userSlice = createSlice({
     ) {
       state.accessToken = action.payload.accessToken;
       state.isAuthed = action.payload.isAuthed;
-      localStorage.setItem("jwt", action.payload.accessToken as string);
+      localStorage.setItem("jwt", JSON.stringify(action.payload.accessToken));
     },
     setUser(state, action: PayloadAction<User>) {
       state.user = action.payload;
@@ -45,4 +46,4 @@ export const userSlice = createSlice({
 
 export const { setUser, setSession, logOut } = userSlice.actions;
 export default userSlice.reducer;
-// export const selectCurrentUser = (state: RootState) => state.auth.user
+export const selectIsAuthed = (state: RootState) => state.user.isAuthed;

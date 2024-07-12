@@ -24,7 +24,7 @@ export default function LoginTab() {
   async function onLogin() {
     try {
       const { accessToken } = await login({ email, password }).unwrap();
-      localStorage.setItem("jwt", accessToken as string);
+      localStorage.setItem("jwt", JSON.stringify(accessToken));
       dispatch(
         setSession({ accessToken: accessToken as string, isAuthed: true }),
       );
