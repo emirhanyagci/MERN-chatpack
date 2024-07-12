@@ -6,10 +6,11 @@ const jwt = require("jsonwebtoken");
 // @route POST /auth/login
 // @access Public
 exports.login = asyncHandler(async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
+  console.log(email, password);
   const user = await User.findOne({ email });
   if (!user) {
-    res.status(401).json({ message: "User not found" });
+    return res.status(401).json({ message: "User not found" });
   }
   const matchPw = await bcrypt.compare(password, user.password);
   if (!matchPw) {
@@ -18,7 +19,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   const accessToken = jwt.sign(
     {
       userId: user._id,
-      username: user.username,
     },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "30m" }
@@ -26,7 +26,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   const refreshToken = jwt.sign(
     {
       userId: user._id,
-      username: user.username,
     },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "7d" }
