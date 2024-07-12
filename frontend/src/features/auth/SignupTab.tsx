@@ -10,7 +10,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-export default function SignupTab() {
+
+import { useState } from "react";
+import { useSignupMutation } from "@/services/authApi";
+
+export default function SignupTab({
+  setTab,
+}: {
+  setTab: (tab: string) => void;
+}) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signup, { isLoading }] = useSignupMutation();
+  async function onSignup() {
+    try {
+      await signup({
+        username,
+        email,
+        password,
+      }).unwrap();
+      setTab("login");
+      //TOAST
+    } catch (e) {
+      //TOAST
+      console.log(e);
+    }
+  }
   return (
     <TabsContent value="signup">
       <Card>
@@ -23,11 +49,20 @@ export default function SignupTab() {
         <CardContent className="space-y-2">
           <div className="space-y-1">
             <Label htmlFor="username">Username</Label>
-            <Input id="username" type="text" required placeholder="emirhan" />
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              id="username"
+              type="text"
+              required
+              placeholder="emirhan"
+            />
           </div>
           <div className="space-y-1">
             <Label htmlFor="email">Email</Label>
             <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               id="email"
               type="email"
               placeholder="m@example.com"
@@ -36,7 +71,12 @@ export default function SignupTab() {
           </div>
           <div className="space-y-1">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              type="password"
+            />
           </div>
           <div className="space-y-1">
             <Label htmlFor="avatar">Avatar</Label>
@@ -44,7 +84,9 @@ export default function SignupTab() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col">
-          <Button className="w-full">Create an account</Button>
+          <Button disabled={isLoading} onClick={onSignup} className="w-full">
+            Create an account
+          </Button>
         </CardFooter>
       </Card>
     </TabsContent>
