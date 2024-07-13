@@ -337,13 +337,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.5":
-  version: 3.2.5
-  resolution: "async@npm:3.2.5"
-  checksum: 10c0/1408287b26c6db67d45cb346e34892cee555b8b59e6c68e6f8c3e495cad5ca13b4f218180e871f3c2ca30df4ab52693b66f2f6ff43644760cab0b2198bda79c1
-  languageName: node
-  linkType: hard
-
 "backend@workspace:.":
   version: 0.0.0-use.local
   resolution: "backend@workspace:."
@@ -361,7 +354,6 @@ __metadata:
     express-async-handler: "npm:^1.2.0"
     jsonwebtoken: "npm:^9.0.2"
     mongoose: "npm:^8.4.3"
-    mongoose-sequence: "npm:^6.0.1"
     nodemon: "npm:^3.1.4"
     uuid: "npm:^10.0.0"
   languageName: unknown
@@ -1407,13 +1399,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
-  languageName: node
-  linkType: hard
-
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.4.3
   resolution: "lru-cache@npm:10.4.3"
@@ -1662,18 +1647,6 @@ __metadata:
     socks:
       optional: true
   checksum: 10c0/4a8a3781b6c4851dc211df559ac2b82b62f6c1bcc0dcd14c86264891221c081436d03254cb257d0da696efbba9f426919c0e6a9e14398faac4a93db3c1c8d335
-  languageName: node
-  linkType: hard
-
-"mongoose-sequence@npm:^6.0.1":
-  version: 6.0.1
-  resolution: "mongoose-sequence@npm:6.0.1"
-  dependencies:
-    async: "npm:^3.2.5"
-    lodash: "npm:^4.17.21"
-  peerDependencies:
-    mongoose: ">=5"
-  checksum: 10c0/c38f3d3b26593f81ea3a5deb729eaa3faacbaa46017c53b39c4d9e6c9f3b1eac008e5ec90bfc07648a29298c8b2da39ff8254c95f97bc8e80b0b8395c619e2f1
   languageName: node
   linkType: hard
 

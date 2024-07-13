@@ -66,7 +66,7 @@ export default function NewGroupTab() {
           <Input
             id="groupMember"
             type="text"
-            placeholder="Name or id of one of the Fantastic Four!"
+            placeholder="Name or email of one of the Fantastic Four!"
           />
           <ScrollArea>
             <div className="mt-1 flex max-h-32 flex-wrap gap-2">

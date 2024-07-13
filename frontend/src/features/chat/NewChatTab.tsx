@@ -40,7 +40,7 @@ export default function NewChatTab() {
   return (
     <div className="space-y-4">
       <DialogDescription className="text-xl">Create New Chat</DialogDescription>
-      <Input type="text" placeholder="Type id or username" />
+      <Input type="text" placeholder="Type email or username" />
       <ScrollArea>
         <div className="grid max-h-96 grid-cols-2">
           {mockUser.map((item) => (

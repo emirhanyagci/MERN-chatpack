@@ -37,7 +37,7 @@ export default function MenuDrawer() {
                       Emirhan Yagci
                     </span>
                     <span className="text-sms lette text-muted-foreground">
-                      #11111111111
+                      #668e42be8c47ce79ad4648f7
                     </span>
                   </div>
                 </div>

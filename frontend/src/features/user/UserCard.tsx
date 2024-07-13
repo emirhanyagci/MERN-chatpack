@@ -23,7 +23,12 @@ export default function UserCard({
       <Avatar src="https://github.com/shadcn.png" fallback="EY" />
       <div className="flex w-full flex-col items-start">
         <h3 className="text-base text-foreground">Emirhan Yagci</h3>
-        <span className="text-sm text-muted-foreground">#11111111111</span>
+        <span
+          className="max-w-[22ch] overflow-hidden text-xs text-muted-foreground"
+          title=" emirhan.yacis@gmail.com"
+        >
+          emirhan.yacis@gmail.com
+        </span>
         {withRole && (
           <Badge variant="secondary" className="text-xs text-muted-foreground">
             {role}

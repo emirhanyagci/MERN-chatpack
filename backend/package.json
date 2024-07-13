@@ -25,7 +25,6 @@
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.3",
-    "mongoose-sequence": "^6.0.1"
+    "mongoose": "^8.4.3"
   }
 }
