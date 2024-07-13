@@ -8,9 +8,7 @@ export default function SideBar() {
     <aside className="h-full space-y-3 border-r border-border">
       <header className="flex items-center justify-between px-5 pt-3">
         <div className="flex items-center gap-3">
-          <div className="hidden md:block">
-            <MenuDrawer />
-          </div>
+          <MenuDrawer />
           <span className="text-xl text-foreground">Messages</span>
           <CountBadge count={12} variant="secondary" />
         </div>

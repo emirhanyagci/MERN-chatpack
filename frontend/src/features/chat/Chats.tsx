@@ -9,6 +9,7 @@ export default function Chats() {
         <Input type="text" placeholder="Search in chats" />
       </div>
       <ChatCard />
+      <ChatCard />
       <div className="flex w-full items-center space-x-2 px-5">
         <Skeleton className="h-10 w-10 rounded-full" />
         <div className="space-y-2">

@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import NewChatTab from "./NewChatTab";
@@ -25,10 +26,10 @@ export default function NewChat() {
             <DialogHeader>
               <TabsList className="w-full">
                 <TabsTrigger className="w-1/2" value="newChat">
-                  New Chat
+                  <DialogTitle>New Chat</DialogTitle>
                 </TabsTrigger>
                 <TabsTrigger className="w-1/2" value="newGroup">
-                  New Group
+                  <DialogTitle>New Group</DialogTitle>
                 </TabsTrigger>
               </TabsList>
             </DialogHeader>

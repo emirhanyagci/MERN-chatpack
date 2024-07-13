@@ -2,8 +2,11 @@ import CountBadge from "@/components/CountBadge";
 import Avatar from "@/components/Avatar";
 
 export default function ChatCard() {
+  function onSelect() {
+    console.log("selected");
+  }
   return (
-    <div className="flex gap-3 p-5 hover:bg-muted">
+    <div className="flex gap-3 p-5 hover:bg-muted" onClick={onSelect}>
       <Avatar src="https://github.com/shadcn.png" fallback="EY" />
 
       <div className="w-full space-y-1">
