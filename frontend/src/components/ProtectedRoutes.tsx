@@ -16,9 +16,9 @@ export default function ProtectedRoutes() {
         const token = JSON.parse(jwt);
         dispatch(setSession({ accessToken: token, isAuthed: true }));
         console.log(token);
-        setIsLoading(false);
         //TOAST
       }
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
       //TOAST
