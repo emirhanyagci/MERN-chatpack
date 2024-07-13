@@ -19,6 +19,7 @@ const initialState: UserSlice = {
   isAuthed: false,
   user: {
     _id: null,
+    username: null,
     status: null,
     email: null,
     blockList: [],

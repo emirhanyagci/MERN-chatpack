@@ -7,7 +7,7 @@ interface Auth {
   password: string;
   username: string;
 }
-interface ApiResponse {
+export interface ApiResponse {
   message: string;
   accessToken: string;
 }
