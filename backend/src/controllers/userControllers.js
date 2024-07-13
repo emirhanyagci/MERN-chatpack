@@ -4,14 +4,16 @@ const User = require("../models/User");
 // @route GET /user/search
 // @access Private
 exports.searchUser = asyncHandler(async (req, res, next) => {
-  const { search } = req.body;
+  const search = req.query.search;
   const rootUserId = req.user.userId;
   const query = new RegExp(search, "i", "g");
 
   const users = await User.find({
     $or: [{ username: query }, { email: query }],
     _id: { $ne: rootUserId },
-  }).select("-password");
+  })
+    .limit(5)
+    .select("-password");
 
   if (!users.length) {
     return res.status(204).json({ message: "User not found" });
