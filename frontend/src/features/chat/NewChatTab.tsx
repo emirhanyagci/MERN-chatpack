@@ -1,28 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import UserCard from "@/features/user/UserCard";
-import { DialogClose } from "@/components/ui/dialog";
+import { DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
+import { User } from "../user/userSlice";
+const mockUser = [
+  {
+    _id: "12912939121231",
+    username: "emirhan",
+    email: "emirhan.yacis@gmail.com",
+    avatarUrl: "",
+    status: "Free",
+    blockList: [],
+  },
+  {
+    _id: "23342352345235",
+    username: "emirhan",
+    email: "emirhan.yacis@gmail.com",
+    avatarUrl: "",
+    status: "Free",
+    blockList: [],
+  },
+  {
+    _id: "45324123123123",
+    username: "emirhan",
+    email: "emirhan.yacis@gmail.com",
+    avatarUrl: "",
+    status: "Free",
+    blockList: [],
+  },
+];
 export default function NewChatTab() {
   const [selectedUserId, setSelectedUserId] = useState("1");
-  function selectHandler(userId: string) {
-    setSelectedUserId(userId);
+  function selectHandler(user: User) {
+    setSelectedUserId(user._id as string);
   }
   return (
     <div className="space-y-4">
-      <h1 className="text-xl">Create New Chat</h1>
+      <DialogDescription className="text-xl">Create New Chat</DialogDescription>
       <Input type="text" placeholder="Type id or username" />
       <ScrollArea>
         <div className="grid max-h-96 grid-cols-2">
-          {Array.from({ length: 20 }, (_, index) => index + 1).map((item) => (
+          {mockUser.map((item) => (
             <UserCard
-              key={item}
-              userId={item.toString()}
+              key={item._id}
+              user={item}
               selectHandler={selectHandler}
-              isActive={selectedUserId === item.toString()}
+              isActive={selectedUserId === item._id}
             />
           ))}
 

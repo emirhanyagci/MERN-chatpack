@@ -2,9 +2,11 @@ import { RootState } from "@/stores/store";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 export interface User {
+  _id: string | null;
+  username: string | null;
   status: string | null;
   email: string | null;
-  blockedUser: string[] | [];
+  blockList: string[] | [];
   avatarUrl: string | null;
 }
 export interface UserSlice {
@@ -16,9 +18,10 @@ const initialState: UserSlice = {
   accessToken: null,
   isAuthed: false,
   user: {
+    _id: null,
     status: null,
     email: null,
-    blockedUser: [],
+    blockList: [],
     avatarUrl: null,
   },
 };

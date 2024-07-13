@@ -1,23 +1,24 @@
 import Avatar from "@/components/Avatar";
 import { Badge } from "@/components/ui/badge";
+import { User } from "./userSlice";
 
 export default function UserCard({
-  userId,
+  user,
   isActive = false,
   withRole = false,
   role,
   selectHandler,
 }: {
-  userId: string;
+  user: User;
   isActive?: boolean;
   withRole?: boolean;
-  role: string;
-  selectHandler?: (userId: string) => void;
+  role?: string;
+  selectHandler?: (user: User) => void;
 }) {
   return (
     <div
-      className={`flex cursor-pointer items-center gap-3 rounded-lg p-3 hover:bg-muted ${isActive ? "border-2 border-ring" : ""}`}
-      onClick={() => selectHandler!(userId)}
+      className={`flex cursor-pointer items-center gap-3 rounded-lg p-3 hover:bg-muted ${isActive ? "bg-muted" : ""}`}
+      onClick={() => selectHandler!(user)}
     >
       <Avatar src="https://github.com/shadcn.png" fallback="EY" />
       <div className="flex w-full flex-col items-start">
