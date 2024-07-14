@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const safelist = ["h-24", "w-24", "w-9", "h-9"];
+const safelist = ["h-24", "w-24", "w-9", "h-9", "w-16", "h-16"];
 module.exports = {
   safelist,
   darkMode: ["class"],

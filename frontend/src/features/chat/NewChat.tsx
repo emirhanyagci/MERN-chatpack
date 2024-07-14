@@ -22,7 +22,7 @@ export default function NewChat() {
           </Button>
         </DialogTrigger>
         <DialogContent disableDefaultClose={true}>
-          <Tabs defaultValue="newChat">
+          <Tabs defaultValue="newGroup">
             <DialogHeader>
               <TabsList className="w-full">
                 <TabsTrigger className="w-1/2" value="newChat">

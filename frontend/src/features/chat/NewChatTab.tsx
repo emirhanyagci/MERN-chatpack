@@ -19,11 +19,7 @@ export default function NewChatTab() {
   return (
     <div className="space-y-4">
       <DialogDescription className="text-xl">Create New Chat</DialogDescription>
-      <UserSearch
-        selected={selectedUserId}
-        setSelected={setSelectedUserId}
-        selectHandler={selectHandler}
-      />
+      <UserSearch selected={selectedUserId} selectHandler={selectHandler} />
 
       <div className="flex justify-end gap-1">
         <DialogClose asChild>
