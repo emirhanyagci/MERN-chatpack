@@ -1,30 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { User } from "../user/userSlice";
 
-export interface MessageInterface {
+export interface Message {
   sender: string;
   message: string;
   sendedAt: string;
 }
-export interface ChatInterface {
-  chadId: string;
-  members: string[];
-  messages: MessageInterface[];
+export interface Chat {
+  _id: string;
+  members: User[];
+  messages: Message[];
   lastMessage: string;
   isGroupChat: boolean;
   owner: string;
   managers: string[];
   groupName: string;
   groupDescription: string;
+  groupImageUrl: string;
   createdAt: string;
 }
-export interface ChatSliceInterface {
-  chats: ChatInterface[] | [];
+export interface ChatSlice {
   activeChat: string | null;
   notifications: [];
 }
-const initialState: ChatSliceInterface = {
-  chats: [],
+const initialState: ChatSlice = {
   activeChat: null,
   notifications: [],
 };

@@ -8,6 +8,7 @@ export interface User {
   email: string | null;
   blockList: string[] | [];
   avatarUrl: string | null;
+  canBeAddedToGroups: boolean | null;
 }
 export interface UserSlice {
   accessToken: string | null;
@@ -24,6 +25,7 @@ const initialState: UserSlice = {
     email: null,
     blockList: [],
     avatarUrl: null,
+    canBeAddedToGroups: null,
   },
 };
 export const userSlice = createSlice({
@@ -38,7 +40,7 @@ export const userSlice = createSlice({
       state.isAuthed = action.payload.isAuthed;
       localStorage.setItem("jwt", JSON.stringify(action.payload.accessToken));
     },
-    setUser(state, action: PayloadAction<User>) {
+    setUserCredentials(state, action: PayloadAction<User>) {
       state.user = action.payload;
     },
     logOut() {
@@ -48,6 +50,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUser, setSession, logOut } = userSlice.actions;
+export const { setUserCredentials, setSession, logOut } = userSlice.actions;
 export default userSlice.reducer;
 export const selectIsAuthed = (state: RootState) => state.user.isAuthed;
+export const selectUser = (state: RootState) => state.user.user;

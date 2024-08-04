@@ -36,12 +36,13 @@ const baseQueryWithReauth: BaseQueryFn<
       api,
       extraOptions,
     );
-    console.log(refreshResult);
 
     if (refreshResult.data) {
+      const { accessToken } = refreshResult.data as { accessToken: string };
+
       api.dispatch(
         setSession({
-          accessToken: refreshResult.data.accessToken,
+          accessToken,
           isAuthed: true,
         }),
       );
@@ -57,22 +58,27 @@ export const userApi = createApi({
   baseQuery: baseQueryWithReauth,
   tagTypes: ["users"],
   endpoints: (builder) => ({
-    searchUser: builder.query<ApiResponse, string>({
+    searchUser: builder.query<Partial<ApiResponse>, string>({
       query: (search) => ({
         url: `/user/search?search=${search}`,
       }),
       providesTags: [{ type: "users", id: "LIST" }],
     }),
-    getUserById: builder.query<User[], string>({
-      query: (userId) => ({ url: "/user/details", body: userId }),
-      providesTags: (result) =>
-        result
-          ? result.map(({ _id }) => ({ type: "users", id: _id as string }))
-          : ["users"],
+    // getUserById: builder.query<User[], string>({
+    //   query: (userId) => ({ url: "/user/details", body: userId }),
+    //   providesTags: (result) =>
+    //     result
+    //       ? result.map(({ _id }) => ({ type: "users", id: _id as string }))
+    //       : ["users"],
 
-      //tags
+    //   //tags
+    // }),
+    getCurrentUser: builder.query<User, void>({
+      query: () => "/user/current",
+      providesTags: (user) =>
+        user ? [{ type: "users", id: user._id as string }] : ["users"],
     }),
   }),
 });
 
-export const { useLazySearchUserQuery, useGetUserByIdQuery } = userApi;
+export const { useLazySearchUserQuery, useLazyGetCurrentUserQuery } = userApi;
