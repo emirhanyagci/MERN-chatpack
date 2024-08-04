@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useState } from "react";
 import UserCardSkeleton from "./UserCardSkeleton";
 import { User } from "./userSlice";
 import useDebounceInput from "@/hooks/useDebounceInput ";
 import UserCard from "./UserCard";
 import { useLazySearchUserQuery } from "@/services/userApi";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function UserSearch({
   selected,
@@ -46,6 +46,7 @@ export default function UserSearch({
     }
     return false;
   };
+
   return (
     <>
       <Input
@@ -55,8 +56,11 @@ export default function UserSearch({
       />
       {children}
       <ScrollArea>
-        <div className="grid max-h-96 grid-cols-2">
-          {isDebouncing || result.isLoading || result.isFetching ? (
+        <div className="grid max-h-40 grid-cols-1 md:grid-cols-2">
+          {isDebouncing ||
+          result.isLoading ||
+          result.isFetching ||
+          result.isUninitialized ? (
             <>
               <UserCardSkeleton />
               <UserCardSkeleton />

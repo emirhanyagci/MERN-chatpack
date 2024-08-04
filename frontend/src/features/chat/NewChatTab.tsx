@@ -15,7 +15,9 @@ export default function NewChatTab() {
       setSelectedUserId(user._id as string);
     }
   }
-
+  function createChatHandler() {
+    console.log(selectedUserId);
+  }
   return (
     <div className="space-y-4">
       <DialogDescription className="text-xl">Create New Chat</DialogDescription>
@@ -25,7 +27,9 @@ export default function NewChatTab() {
         <DialogClose asChild>
           <Button variant="ghost">Cancel</Button>
         </DialogClose>
-        <Button disabled={!selectedUserId}>Create Chat</Button>
+        <Button onClick={createChatHandler} disabled={!selectedUserId}>
+          Create Chat
+        </Button>
       </div>
     </div>
   );

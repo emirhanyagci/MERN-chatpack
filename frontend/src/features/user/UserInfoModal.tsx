@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -20,9 +21,10 @@ export default function UserInfoModal() {
           <Info size={20} className="text-primary" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="1313131">
+      <DialogContent className="1313131" aria-describedby="User info">
         <DialogHeader>
           <DialogTitle className="text-xl">User Info</DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="flex flex-col space-y-3">
           <div className="flex flex-col items-center justify-center">

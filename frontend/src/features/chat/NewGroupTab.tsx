@@ -28,6 +28,9 @@ export default function NewGroupTab() {
   function unSelectUser(user: User) {
     setSelectedUsers((oldUsers) => oldUsers.filter((u) => u._id !== user._id));
   }
+  function createGroupHandler() {
+    console.log(selectedUsers);
+  }
   return (
     <div className="space-y-3">
       <DialogDescription className="text-xl">
@@ -66,7 +69,10 @@ export default function NewGroupTab() {
         <DialogClose asChild>
           <Button variant="ghost">Cancel</Button>
         </DialogClose>
-        <Button disabled={!selectedUsers || selectedUsers.length <= 0}>
+        <Button
+          onClick={createGroupHandler}
+          disabled={!selectedUsers || selectedUsers.length <= 0}
+        >
           Create Group
         </Button>
       </div>

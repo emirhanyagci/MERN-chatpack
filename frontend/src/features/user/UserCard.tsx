@@ -15,19 +15,21 @@ export default function UserCard({
   role?: string;
   selectHandler?: (user: User) => void;
 }) {
+  if (!user.username) return null;
+  const uname = user.username.slice(0, 2);
   return (
     <div
       className={`flex cursor-pointer items-center gap-3 rounded-lg p-3 hover:bg-muted ${isActive ? "bg-muted" : ""}`}
       onClick={() => selectHandler!(user)}
     >
-      <Avatar src="https://github.com/shadcn.png" fallback="EY" />
+      <Avatar src={user.avatarUrl as string} fallback={uname} />
       <div className="flex w-full flex-col items-start">
-        <h3 className="text-base text-foreground">Emirhan Yagci</h3>
+        <h3 className="text-base text-foreground">{user.username}</h3>
         <span
           className="max-w-[22ch] overflow-hidden text-xs text-muted-foreground"
           title=" emirhan.yacis@gmail.com"
         >
-          emirhan.yacis@gmail.com
+          {user.email}
         </span>
         {withRole && (
           <Badge variant="secondary" className="text-xs text-muted-foreground">
