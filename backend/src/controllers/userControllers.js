@@ -1,5 +1,18 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
+// @desc get logged in user
+// @route GET /user/current
+// @access Private
+exports.getCurrentUser = asyncHandler(async (req, res, next) => {
+  const { userId } = req.user;
+  const user = await User.findById(userId).select("-password -reportCount");
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+  return res.json(user);
+});
 // @desc Search user
 // @route GET /user/search
 // @access Private
@@ -7,12 +20,12 @@ exports.searchUser = asyncHandler(async (req, res, next) => {
   const search = req.query.search;
   const rootUserId = req.user.userId;
   const query = new RegExp(search, "i", "g");
-
+  console.log(search);
   const users = await User.find({
     $or: [{ username: query }, { email: query }],
     _id: { $ne: rootUserId },
   })
-    .limit(5)
+    .limit(20)
     .select("-password");
 
   if (!users.length) {
