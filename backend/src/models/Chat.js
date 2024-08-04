@@ -13,19 +13,29 @@ const chatSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    unreadMessagesCount: [
+      {
+        type: Object,
+        default: [],
+      },
+    ],
+    lastMessage: {
+      type: String,
+      default: "Start chat!",
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: function () {
+        return this.isGroupChat;
+      },
+    },
     managers: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    lastMessage: {
-      type: String,
-    },
+
     groupName: {
       type: String,
       required: function () {
@@ -40,9 +50,10 @@ const chatSchema = new mongoose.Schema(
     },
     groupImageUrl: {
       type: String,
+      default: "",
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
 module.exports = mongoose.model("Chat", chatSchema);
