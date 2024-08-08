@@ -1,7 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Chat = require("../models/Chat");
-
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = require("../aws/client");
 // @desc create new private chat
 // @route POST /chat/create-chat
 // @access Private
@@ -67,5 +69,18 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   if (!chats.length) {
     return res.status(204).json({ chats, message: "No chats found" });
   }
+
+  for (let chat of chats) {
+    if (!chat.isGroupChat || !chat.groupImage) break;
+    const getObjectParams = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: chat.groupImage,
+    };
+    const command = new GetObjectCommand(getObjectParams);
+    const imageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    chat.groupImage = imageUrl;
+  }
+  console.log(chats);
+
   return res.json({ chats });
 });

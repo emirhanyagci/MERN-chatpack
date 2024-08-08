@@ -6,8 +6,9 @@ const {
   refresh,
   logout,
 } = require("../controllers/authControllers");
+const upload = require("../middleware/multerUpload");
 router.post("/login", login);
-router.post("/signup", signup);
+router.post("/signup", upload.single("avatar"), signup);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 

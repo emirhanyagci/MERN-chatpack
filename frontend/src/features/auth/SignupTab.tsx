@@ -22,13 +22,16 @@ export default function SignupTab({
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [avatar, setAvatar] = useState<File | null>(null);
   const [signup, { isLoading }] = useSignupMutation();
   async function onSignup() {
+    const avatarFile = avatar as File;
     try {
       await signup({
         username,
         email,
         password,
+        avatarFile,
       }).unwrap();
       setTab("login");
       //TOAST
@@ -80,7 +83,16 @@ export default function SignupTab({
           </div>
           <div className="space-y-1">
             <Label htmlFor="avatar">Avatar</Label>
-            <Input id="avatar" type="file" />
+            <Input
+              id="avatar"
+              type="file"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setAvatar(file as File);
+                }
+              }}
+            />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col">

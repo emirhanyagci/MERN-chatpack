@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    avatarUrl: {
+    avatar: {
+      required: true,
       type: String,
       default: "",
     },

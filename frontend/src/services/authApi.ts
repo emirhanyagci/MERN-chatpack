@@ -6,6 +6,7 @@ interface Auth {
   email: string;
   password: string;
   username: string;
+  avatarFile: File;
 }
 export interface ApiResponse {
   message: string;
@@ -28,15 +29,19 @@ export const authApi = createApi({
         body,
       }),
     }),
-    signup: builder.mutation<
-      Partial<ApiResponse>,
-      Pick<Auth, "email" | "password" | "username">
-    >({
-      query: (body) => ({
-        url: "/signup",
-        method: "POST",
-        body,
-      }),
+    signup: builder.mutation<Partial<ApiResponse>, Auth>({
+      query: (body) => {
+        const formData = new FormData();
+        formData.append("username", body.username);
+        formData.append("email", body.email);
+        formData.append("password", body.password);
+        formData.append("avatar", body.avatarFile);
+        return {
+          url: "/signup",
+          method: "POST",
+          body: formData,
+        };
+      },
     }),
     logout: builder.mutation<Partial<ApiResponse>, void>({
       query: () => ({

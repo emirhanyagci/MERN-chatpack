@@ -48,7 +48,7 @@ const chatSchema = new mongoose.Schema(
         return this.isGroupChat;
       },
     },
-    groupImageUrl: {
+    groupImage: {
       type: String,
       default: "",
     },

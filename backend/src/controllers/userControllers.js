@@ -1,4 +1,7 @@
 const asyncHandler = require("express-async-handler");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = require("../aws/client");
 const User = require("../models/User");
 // @desc get logged in user
 // @route GET /user/current
@@ -20,7 +23,6 @@ exports.searchUser = asyncHandler(async (req, res, next) => {
   const search = req.query.search;
   const rootUserId = req.user.userId;
   const query = new RegExp(search, "i", "g");
-  console.log(search);
   const users = await User.find({
     $or: [{ username: query }, { email: query }],
     _id: { $ne: rootUserId },
@@ -31,6 +33,17 @@ exports.searchUser = asyncHandler(async (req, res, next) => {
   if (!users.length) {
     return res.status(204).json({ message: "User not found" });
   }
+
+  for (let user of users) {
+    const getObjectParams = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: user.avatar,
+    };
+    const command = new GetObjectCommand(getObjectParams);
+    const avatarUrl = await getSignedUrl(s3, command, { expiresIn: 1200 });
+    user.avatar = avatarUrl;
+  }
+
   return res.json({
     message: "Successfully",
     users,

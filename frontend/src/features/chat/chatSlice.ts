@@ -17,7 +17,7 @@ export interface Chat {
   managers: string[];
   groupName: string;
   groupDescription: string;
-  groupImageUrl: string;
+  groupImage: string;
   createdAt: string;
 }
 export interface ChatSlice {

@@ -22,7 +22,7 @@ export default function UserCard({
       className={`flex cursor-pointer items-center gap-3 rounded-lg p-3 hover:bg-muted ${isActive ? "bg-muted" : ""}`}
       onClick={() => selectHandler!(user)}
     >
-      <Avatar src={user.avatarUrl as string} fallback={uname} />
+      <Avatar src={user.avatar as string} fallback={uname} />
       <div className="flex w-full flex-col items-start">
         <h3 className="text-base text-foreground">{user.username}</h3>
         <span

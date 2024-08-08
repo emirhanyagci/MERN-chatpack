@@ -8,7 +8,7 @@ export default function ChatCard({ chat }: { chat: Chat }) {
   const user = useSelector(selectUser);
   console.log(chat);
 
-  const { lastMessage, members, isGroupChat, groupImageUrl, groupName } = chat;
+  const { lastMessage, members, isGroupChat, groupImage, groupName } = chat;
   // if this chat not group chat
   const receiverUser = members.find(({ _id }) => _id !== user._id);
 
@@ -22,8 +22,8 @@ export default function ChatCard({ chat }: { chat: Chat }) {
       <Avatar
         src={
           !isGroupChat
-            ? (receiverUser?.avatarUrl as string)
-            : (groupImageUrl as string)
+            ? (receiverUser?.avatar as string)
+            : (groupImage as string)
         }
         fallback={avatarFallback as string}
       />

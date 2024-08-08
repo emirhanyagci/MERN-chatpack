@@ -7,7 +7,7 @@ export interface User {
   status: string | null;
   email: string | null;
   blockList: string[] | [];
-  avatarUrl: string | null;
+  avatar: string | null;
   canBeAddedToGroups: boolean | null;
 }
 export interface UserSlice {
@@ -24,7 +24,7 @@ const initialState: UserSlice = {
     status: null,
     email: null,
     blockList: [],
-    avatarUrl: null,
+    avatar: null,
     canBeAddedToGroups: null,
   },
 };

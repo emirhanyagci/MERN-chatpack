@@ -1,13 +1,17 @@
 const asyncHandler = require("express-async-handler");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = require("../aws/client");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sharp = require("sharp");
+const getRandomFileName = require("../../utils/getRandomFileName");
+
 // @desc login
 // @route POST /auth/login
 // @access Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(email, password);
   const user = await User.findOne({ email });
   if (!user) {
     return res.status(401).json({ message: "User not found" });
@@ -45,18 +49,37 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @desc signup
 // @route POST /auth/signup
 // @access Public
-
 exports.signup = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
-  console.log(username, 11);
+
+  const avatar = req.file;
+
   const duplicateUser = await User.findOne({ email }).exec();
   if (duplicateUser) {
     return res.status(409).json({
       message: "User already exist with received data",
     });
   }
+
+  const avatarBuffer = await sharp(avatar.buffer).resize(128, 128).toBuffer();
+  const fileName = getRandomFileName(avatar.originalname);
+
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: fileName,
+    Body: avatarBuffer,
+    ContentType: avatar.mimetype,
+  });
+
+  await s3.send(command);
+
   const hashedPw = await bcrypt.hash(password, 12);
-  const user = await User.create({ username, email, password: hashedPw });
+  const user = await User.create({
+    username,
+    email,
+    password: hashedPw,
+    avatar: fileName,
+  });
   if (!user) {
     return res.status(400).json({
       message: "Invalid user data received",
