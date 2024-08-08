@@ -51,6 +51,7 @@ const baseQueryWithReauth: BaseQueryFn<
 export interface ApiResponse {
   message: string;
   chats: Chat[];
+  chat: Chat;
 }
 export const chatApi = createApi({
   reducerPath: "chatApi",
@@ -64,7 +65,14 @@ export const chatApi = createApi({
           ? result.chats.map(({ _id }) => ({ type: "chats", id: _id }))
           : [{ type: "chats", id: "LIST" }],
     }),
+    getChat: builder.query<ApiResponse, string>({
+      query: (chatId) => `/chat/${chatId}`,
+      providesTags: (result) =>
+        result
+          ? [{ type: "chats", id: result.chat._id }]
+          : [{ type: "chats", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetChatHistoryQuery } = chatApi;
+export const { useGetChatHistoryQuery, useGetChatQuery } = chatApi;

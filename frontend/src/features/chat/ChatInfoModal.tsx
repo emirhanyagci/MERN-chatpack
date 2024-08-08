@@ -9,8 +9,19 @@ import {
 } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
 import Avatar from "@/components/Avatar";
+import { Chat } from "./chatSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "../user/userSlice";
 
-export default function UserInfoModal() {
+export default function ChatInfoModal({ chat }: { chat: Chat }) {
+  const currentUser = useSelector(selectUser);
+  console.log(currentUser);
+
+  const participant = chat.members.find(
+    (member) => member._id !== currentUser._id,
+  );
+  console.log(participant);
+  if (!participant) return null;
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -21,7 +32,7 @@ export default function UserInfoModal() {
           <Info size={20} className="text-primary" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="1313131" aria-describedby="User info">
+      <DialogContent aria-describedby="User info">
         <DialogHeader>
           <DialogTitle className="text-xl">User Info</DialogTitle>
           <DialogDescription></DialogDescription>
@@ -30,16 +41,22 @@ export default function UserInfoModal() {
           <div className="flex flex-col items-center justify-center">
             <Avatar
               size={24}
-              src="https://github.com/shadcn.png"
+              src={participant.avatar as string}
               fallback="EY"
             />
-            <span className="text-base text-foreground">Emirhan Yagci</span>
-            <span className="text-muted-foreground">#111111111</span>
+            <span className="text-base text-foreground">
+              {participant.username}
+            </span>
+            <span className="text-muted-foreground">#{participant._id}</span>
           </div>
           <div>
             <div className="flex flex-col">
+              <span className="text-sm text-muted-foreground">Email:</span>
+              <span className="text-foreground">{participant.email}</span>
+            </div>
+            <div className="flex flex-col">
               <span className="text-sm text-muted-foreground">Status:</span>
-              <span className="text-foreground">Fullstack developer</span>
+              <span className="text-foreground">{participant.status}</span>
             </div>
           </div>
           <div className="space-x-2">

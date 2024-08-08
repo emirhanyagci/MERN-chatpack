@@ -20,6 +20,17 @@ export interface Chat {
   groupImage: string;
   createdAt: string;
 }
+export enum Role {
+  ADMIN = "admin",
+  MANAGER = "manager",
+  MEMBER = "member",
+}
+
+export const rolePriority = {
+  admin: 1,
+  manager: 2,
+  member: 3,
+};
 export interface ChatSlice {
   activeChat: string | null;
   notifications: [];

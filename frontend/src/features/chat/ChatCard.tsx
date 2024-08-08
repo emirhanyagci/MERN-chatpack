@@ -3,11 +3,12 @@ import Avatar from "@/components/Avatar";
 import { Chat } from "./chatSlice";
 import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function ChatCard({ chat }: { chat: Chat }) {
   const user = useSelector(selectUser);
-  console.log(chat);
-
+  const { chatId } = useParams();
+  const navigate = useNavigate();
   const { lastMessage, members, isGroupChat, groupImage, groupName } = chat;
   // if this chat not group chat
   const receiverUser = members.find(({ _id }) => _id !== user._id);
@@ -15,7 +16,8 @@ export default function ChatCard({ chat }: { chat: Chat }) {
   const title = chat.isGroupChat ? groupName : receiverUser?.username;
   const avatarFallback = title?.slice(0, 2);
   function onSelect() {
-    console.log(chat);
+    if (chatId === chat._id) return;
+    navigate(`/home/${chat._id}`);
   }
   return (
     <div className="flex gap-3 p-5 hover:bg-muted" onClick={onSelect}>

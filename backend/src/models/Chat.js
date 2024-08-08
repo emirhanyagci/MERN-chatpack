@@ -32,7 +32,6 @@ const chatSchema = new mongoose.Schema(
     managers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
       },
     ],
 

@@ -11,8 +11,27 @@ import Avatar from "@/components/Avatar";
 import UserCard from "@/features/user/UserCard";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { Chat, Role, rolePriority } from "./chatSlice";
 
-export default function GroupInfoModal() {
+export default function GroupInfoModal({ group }: { group: Chat }) {
+  const groupMembers = group.members.map((member) => {
+    if (member._id === group.owner) {
+      return { ...member, role: Role.ADMIN };
+    }
+    if (group.managers.includes(member._id as string)) {
+      return { ...member, role: Role.MANAGER };
+    } else {
+      return { ...member, role: Role.MEMBER };
+    }
+  });
+  groupMembers.sort((a, b) => {
+    return rolePriority[a.role] - rolePriority[b.role];
+  });
+  console.log(group);
+
+  const createdAt = new Date(group.createdAt).toLocaleString();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,6 +46,7 @@ export default function GroupInfoModal() {
         <DialogHeader>
           <DialogTitle className="text-xl">Group Info</DialogTitle>
         </DialogHeader>
+        <DialogDescription></DialogDescription>
         <div className="flex flex-col space-y-3">
           <div className="flex flex-col items-center justify-center">
             <Avatar
@@ -39,71 +59,24 @@ export default function GroupInfoModal() {
           <div>
             <div className="flex flex-col">
               <span className="text-sm text-muted-foreground">Created:</span>
-              <span className="text-foreground">15/03/2024 16:15</span>
+              <span className="text-foreground">{createdAt}</span>
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-muted-foreground">
                 Description:
               </span>
-              <span className="text-foreground">Fullstack developer</span>
+              <span className="text-foreground">{group.groupDescription}</span>
             </div>
           </div>
           <div>
             <h2 className="text-bold font-bold">Members</h2>
             <ScrollArea>
               <ul className="max-h-60">
-                <li className="flex items-center">
-                  <div className="w-full">
-                    <UserCard userId="3" withRole={true} role={"ADMIN"} />
-                  </div>
-                  <Button variant="ghost">Make Manager</Button>
-                  <ConfirmDialog
-                    onConfirm={() => {
-                      console.log("kicked");
-                    }}
-                  >
-                    <Button variant="destructive">Kick</Button>
-                  </ConfirmDialog>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-full">
-                    <UserCard userId="3" withRole={true} role={"ADMIN"} />
-                  </div>
-                  <Button variant="ghost">Make Manager</Button>
-                  <ConfirmDialog
-                    onConfirm={() => {
-                      console.log("kicked");
-                    }}
-                  >
-                    <Button variant="destructive">Kick</Button>
-                  </ConfirmDialog>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-full">
-                    <UserCard userId="3" withRole={true} role={"ADMIN"} />
-                  </div>
-                  <Button variant="ghost">Make Manager</Button>
-                  <ConfirmDialog
-                    onConfirm={() => {
-                      console.log("kicked");
-                    }}
-                  >
-                    <Button variant="destructive">Kick</Button>
-                  </ConfirmDialog>
-                </li>
-                <li className="flex items-center">
-                  <div className="w-full">
-                    <UserCard userId="3" withRole={true} role={"ADMIN"} />
-                  </div>
-                  <Button variant="ghost">Make Manager</Button>
-                  <ConfirmDialog
-                    onConfirm={() => {
-                      console.log("kicked");
-                    }}
-                  >
-                    <Button variant="destructive">Kick</Button>
-                  </ConfirmDialog>
-                </li>
+                {groupMembers.map((user) => (
+                  <li className="flex items-center" key={user._id}>
+                    <UserCard user={user} withRole={true} />
+                  </li>
+                ))}
               </ul>
             </ScrollArea>
           </div>

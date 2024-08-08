@@ -7,6 +7,7 @@ const User = require("../models/User");
 // @route GET /user/current
 // @access Private
 exports.getCurrentUser = asyncHandler(async (req, res, next) => {
+  //SIGNED
   const { userId } = req.user;
   const user = await User.findById(userId).select("-password -reportCount");
   if (!user) {

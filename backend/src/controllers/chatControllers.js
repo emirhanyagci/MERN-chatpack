@@ -1,9 +1,38 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Chat = require("../models/Chat");
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { GetObjectCommand } = require("@aws-sdk/client-s3");
-const s3 = require("../aws/client");
+
+const setSignedUrl = require("../../utils/setSignedUrl");
+const { log } = require("console");
+// @desc get chat details
+// @route GET /chat/:chatId
+// @access Private
+exports.getChat = asyncHandler(async (req, res, next) => {
+  const chatId = req.params.chatId;
+  const userId = req.user.userId;
+  console.log(chatId);
+
+  const chat = await Chat.findById(chatId)
+    .populate({ path: "members", select: "-password" })
+    .exec();
+  const memberIds = chat.members.map((member) => member._id.toString());
+  if (memberIds.indexOf(userId) === -1) {
+    return res
+      .status(401)
+      .json({ message: "You are not a member of this chat" });
+  }
+  if (!chat) {
+    return res.status(404).json({ message: "Chat not found" });
+  }
+  if (chat.isGroupChat && chat.groupImage) {
+    chat.groupImage = await setSignedUrl(chat.groupImage);
+  }
+  for (let member of chat.members) {
+    member.avatar = await setSignedUrl(member.avatar);
+  }
+
+  return res.json({ chat });
+});
 // @desc create new private chat
 // @route POST /chat/create-chat
 // @access Private
@@ -63,6 +92,7 @@ exports.createNewGroup = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.getChatHistory = asyncHandler(async (req, res, next) => {
   const userId = req.user.userId;
+
   const chats = await Chat.find({ members: userId })
     .populate({ path: "members", select: "-password" })
     .exec();
@@ -71,16 +101,24 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   }
 
   for (let chat of chats) {
-    if (!chat.isGroupChat || !chat.groupImage) break;
-    const getObjectParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: chat.groupImage,
-    };
-    const command = new GetObjectCommand(getObjectParams);
-    const imageUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
-    chat.groupImage = imageUrl;
+    if (chat.isGroupChat && !chat.groupImage) break;
+    if (chat.groupImage) {
+      console.log(chat.groupImage);
+      chat.groupImage = await setSignedUrl(chat.groupImage);
+    } else {
+      let participantIndex;
+      const participant = chat.members.find((member, index) => {
+        if (member._id.toString() !== userId) {
+          participantIndex = index;
+          return member;
+        }
+      });
+
+      chat.members[participantIndex].avatar = await setSignedUrl(
+        participant.avatar
+      );
+    }
   }
-  console.log(chats);
 
   return res.json({ chats });
 });

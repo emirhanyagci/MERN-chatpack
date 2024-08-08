@@ -7,6 +7,7 @@ export interface User {
   status: string | null;
   email: string | null;
   blockList: string[] | [];
+  role?: string | null;
   avatar: string | null;
   canBeAddedToGroups: boolean | null;
 }
