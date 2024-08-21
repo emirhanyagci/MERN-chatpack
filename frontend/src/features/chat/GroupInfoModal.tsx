@@ -28,7 +28,6 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
   groupMembers.sort((a, b) => {
     return rolePriority[a.role] - rolePriority[b.role];
   });
-  console.log(group);
 
   const createdAt = new Date(group.createdAt).toLocaleString();
 
@@ -68,14 +67,29 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
               <span className="text-foreground">{group.groupDescription}</span>
             </div>
           </div>
+
           <div>
             <h2 className="text-bold font-bold">Members</h2>
             <ScrollArea>
               <ul className="max-h-60">
-                {groupMembers.map((user) => (
-                  <li className="flex items-center" key={user._id}>
-                    <UserCard user={user} withRole={true} />
-                  </li>
+                {groupMembers.map((user, index) => (
+                  <div key={index} className="flex justify-between">
+                    <li className="flex items-center" key={user._id}>
+                      <UserCard user={user} withRole={true} />
+                    </li>
+                    <div className="flex flex-col gap-1">
+                      <Button className="text-primary-foreground">
+                        Make Manager
+                      </Button>
+                      <ConfirmDialog
+                        onConfirm={() => {
+                          console.log("kicked");
+                        }}
+                      >
+                        <Button variant="destructive">Kick</Button>
+                      </ConfirmDialog>
+                    </div>
+                  </div>
                 ))}
               </ul>
             </ScrollArea>

@@ -6,12 +6,16 @@ import GroupWindowHeader from "./GroupWindowHeader";
 import { useParams } from "react-router-dom";
 import { useGetChatQuery } from "@/services/chatApi";
 import Loader from "@/components/Loader";
+import { useState } from "react";
 
 export default function ChatWindow() {
   const { chatId } = useParams();
   const { data, isLoading, isFetching } = useGetChatQuery(chatId as string);
-  console.log(isFetching);
+  const [newMessage, setNewMessage] = useState("");
   const chat = data?.chat;
+  function sendMessageHandler(message: string) {
+    setNewMessage(message);
+  }
   return (
     <section className="flex h-full flex-col">
       <MainNavBar />
@@ -22,8 +26,8 @@ export default function ChatWindow() {
       ) : (
         <>
           {chat?.isGroupChat ? <GroupWindowHeader /> : <ChatWindowHeader />}
-          <ChatMessagesWrapper />
-          <ChatInput />
+          <ChatMessagesWrapper newMessage={newMessage} />
+          <ChatInput onSendMessage={sendMessageHandler} />
         </>
       )}
     </section>

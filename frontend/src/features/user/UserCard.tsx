@@ -42,16 +42,6 @@ export default function UserCard({
           )}
         </div>
       </div>
-      <div className="flex flex-col gap-1">
-        <Button className="text-primary-foreground">Make Manager</Button>
-        <ConfirmDialog
-          onConfirm={() => {
-            console.log("kicked");
-          }}
-        >
-          <Button variant="destructive">Kick</Button>
-        </ConfirmDialog>
-      </div>
     </div>
   );
 }

@@ -3,9 +3,10 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../user/userSlice";
 
 export interface Message {
-  sender: string;
+  _id: string;
+  sender: User;
   message: string;
-  sendedAt: string;
+  createdAt: Date;
 }
 export interface Chat {
   _id: string;

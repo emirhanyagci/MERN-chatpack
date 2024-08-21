@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Chat } from "@/features/chat/chatSlice";
+import type { Chat, Message } from "@/features/chat/chatSlice";
 import type {
   BaseQueryFn,
   FetchArgs,
@@ -49,14 +49,20 @@ const baseQueryWithReauth: BaseQueryFn<
   return result;
 };
 export interface ApiResponse {
+  messages: Message[];
   message: string;
+  chatId: string;
   chats: Chat[];
   chat: Chat;
+}
+interface SendMessage {
+  chatId: string;
+  message: string;
 }
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["chats"],
+  tagTypes: ["chats", "messages"],
   endpoints: (builder) => ({
     getChatHistory: builder.query<ApiResponse, void>({
       query: () => "/chat/history",
@@ -72,7 +78,32 @@ export const chatApi = createApi({
           ? [{ type: "chats", id: result.chat._id }]
           : [{ type: "chats", id: "LIST" }],
     }),
+    getMessages: builder.query<ApiResponse, string>({
+      query: (chatId) => `/chat/${chatId}/messages`,
+      providesTags: (result) =>
+        result?.messages
+          ? [
+              ...result.messages.map(({ _id }) => ({
+                type: "messages" as const,
+                id: _id,
+              })),
+            ]
+          : [{ type: "messages", id: "LIST" }],
+    }),
+    sendMessage: builder.mutation<ApiResponse, SendMessage>({
+      query: ({ chatId, message }) => ({
+        url: `/chat/${chatId}/messages`,
+        method: "POST",
+        body: { message },
+      }),
+      invalidatesTags: () => [{ type: "messages", id: "LIST" }],
+    }),
   }),
 });
 
-export const { useGetChatHistoryQuery, useGetChatQuery } = chatApi;
+export const {
+  useGetChatHistoryQuery,
+  useGetChatQuery,
+  useGetMessagesQuery,
+  useSendMessageMutation,
+} = chatApi;

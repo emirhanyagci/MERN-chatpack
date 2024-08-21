@@ -15,12 +15,10 @@ import { selectUser } from "../user/userSlice";
 
 export default function ChatInfoModal({ chat }: { chat: Chat }) {
   const currentUser = useSelector(selectUser);
-  console.log(currentUser);
 
   const participant = chat.members.find(
     (member) => member._id !== currentUser._id,
   );
-  console.log(participant);
   if (!participant) return null;
   return (
     <Dialog>
