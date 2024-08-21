@@ -10,7 +10,7 @@ const { log } = require("console");
 exports.getChat = asyncHandler(async (req, res, next) => {
   const chatId = req.params.chatId;
   const userId = req.user.userId;
-  console.log(chatId);
+  console.log();
 
   const chat = await Chat.findById(chatId)
     .populate({ path: "members", select: "-password" })
@@ -69,7 +69,6 @@ exports.createNewGroup = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ message: "One or more users not found" });
   }
   const members = [ownerId, ...userIds];
-  console.log(members);
   const group = await Chat.create({
     isGroupChat: true,
     members,
@@ -103,12 +102,13 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   for (let chat of chats) {
     if (chat.isGroupChat && !chat.groupImage) break;
     if (chat.groupImage) {
-      console.log(chat.groupImage);
       chat.groupImage = await setSignedUrl(chat.groupImage);
     } else {
       let participantIndex;
       const participant = chat.members.find((member, index) => {
         if (member._id.toString() !== userId) {
+          console.log(member);
+
           participantIndex = index;
           return member;
         }
