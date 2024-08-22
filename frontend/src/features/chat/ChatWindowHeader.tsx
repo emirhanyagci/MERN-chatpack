@@ -5,17 +5,22 @@ import { Button } from "@/components/ui/button";
 import ChatInfoModal from "./ChatInfoModal";
 import { useParams } from "react-router-dom";
 import { useGetChatQuery } from "@/services/chatApi";
+import { useSelector } from "react-redux";
+import { selectUser } from "../user/userSlice";
 export default function ChatWindowHeader() {
   const { chatId } = useParams();
-
+  const currentUser = useSelector(selectUser);
   const { data } = useGetChatQuery(chatId as string);
 
   const chat = data?.chat;
+
   if (!chat) return;
+  console.log(currentUser, chat);
+  const receiverUser = chat.members.find(({ _id }) => _id !== currentUser._id);
   return (
     <header className="flex items-center justify-between border-b border-border p-5">
       <div className="flex items-center gap-3">
-        <Avatar src="https://github.com/shadcn.png" fallback="EY" />
+        <Avatar src={receiverUser?.avatar} fallback="EY" />
         <div className="flex flex-col">
           <h2>Emirhan Yagci</h2>
           <UserActiveStatus />

@@ -6,15 +6,16 @@ import GroupWindowHeader from "./GroupWindowHeader";
 import { useParams } from "react-router-dom";
 import { useGetChatQuery } from "@/services/chatApi";
 import Loader from "@/components/Loader";
-import { useState } from "react";
+import { useSocketContext } from "@/Context/SocketContext";
 
 export default function ChatWindow() {
   const { chatId } = useParams();
+  const { socket } = useSocketContext();
   const { data, isLoading, isFetching } = useGetChatQuery(chatId as string);
-  const [newMessage, setNewMessage] = useState("");
   const chat = data?.chat;
   function sendMessageHandler(message: string) {
-    setNewMessage(message);
+    console.log(message);
+    socket?.emit("new-message", { chatId });
   }
   return (
     <section className="flex h-full flex-col">
@@ -26,7 +27,7 @@ export default function ChatWindow() {
       ) : (
         <>
           {chat?.isGroupChat ? <GroupWindowHeader /> : <ChatWindowHeader />}
-          <ChatMessagesWrapper newMessage={newMessage} />
+          <ChatMessagesWrapper />
           <ChatInput onSendMessage={sendMessageHandler} />
         </>
       )}

@@ -5,7 +5,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sharp = require("sharp");
-const getRandomFileName = require("../../utils/getRandomFileName");
+const getRandomFileName = require("../utils/getRandomFileName");
 
 // @desc login
 // @route POST /auth/login

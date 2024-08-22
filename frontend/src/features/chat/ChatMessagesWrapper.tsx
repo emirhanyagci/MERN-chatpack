@@ -1,28 +1,32 @@
 import Loader from "@/components/Loader";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSocketContext } from "@/Context/SocketContext";
 import TextItem from "@/features/chat/TextItem";
-import { useGetMessagesQuery } from "@/services/chatApi";
+import { chatApi, useGetMessagesQuery } from "@/services/chatApi";
 import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-export default function ChatMessagesWrapper({
-  newMessage,
-}: {
-  newMessage: string;
-}) {
+export default function ChatMessagesWrapper() {
   const { chatId } = useParams();
-  const messageContainerRef = useRef(null);
+  const messageContainerRef = useRef<HTMLDivElement | null>(null);
+  const { socket } = useSocketContext();
+  const dispatch = useDispatch();
   const { data, isLoading } = useGetMessagesQuery(chatId as string, {
     skip: !chatId,
   });
   const messages = data?.messages;
   useEffect(() => {
+    socket?.on("send-message", () => {
+      dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
+    });
+  }, []);
+  useEffect(() => {
     messageContainerRef.current?.scrollIntoView({
-      behavior: "smooth",
       block: "end",
     });
-  }, [newMessage]);
+  }, [messages]);
 
   return (
     <ScrollArea className="h-full">

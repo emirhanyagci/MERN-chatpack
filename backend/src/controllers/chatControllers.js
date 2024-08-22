@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
 const Chat = require("../models/Chat");
 
-const setSignedUrl = require("../../utils/setSignedUrl");
+const setSignedUrl = require("../utils/setSignedUrl");
 const { log } = require("console");
 // @desc get chat details
 // @route GET /chat/:chatId
@@ -10,7 +10,6 @@ const { log } = require("console");
 exports.getChat = asyncHandler(async (req, res, next) => {
   const chatId = req.params.chatId;
   const userId = req.user.userId;
-  console.log();
 
   const chat = await Chat.findById(chatId)
     .populate({ path: "members", select: "-password" })
@@ -107,8 +106,6 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
       let participantIndex;
       const participant = chat.members.find((member, index) => {
         if (member._id.toString() !== userId) {
-          console.log(member);
-
           participantIndex = index;
           return member;
         }

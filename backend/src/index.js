@@ -6,16 +6,8 @@ const cookieParser = require("cookie-parser");
 const { logger } = require("./middleware/logger");
 const http = require("http");
 const mongoose = require("mongoose");
-const app = express();
-const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3000;
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: require("./config/allowedOrigins"),
-  },
-});
-
+const { app, server } = require("./socket/socket");
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.json());
@@ -31,9 +23,7 @@ app.use(require("./middleware/errorHandler"));
 app.use((req, res, next) => {
   res.send("<h1>Welcome my page</h1>");
 });
-io.on("connection", (socket) => {
-  console.log("a user connected");
-});
+
 mongoose.connect(process.env.MONGO_URI).then(() => {
   server.listen(PORT, () => {
     console.log("listening on *:3000");

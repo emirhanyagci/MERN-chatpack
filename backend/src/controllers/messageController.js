@@ -1,8 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/Chat");
 const Message = require("../models/Message");
-const setSignedUrl = require("../../utils/setSignedUrl");
-const { log } = require("console");
+const setSignedUrl = require("../utils/setSignedUrl");
+const { io } = require("../socket/socket");
 
 // @desc get all message of specific chat
 // @route GET /chat/:chatId/messages
@@ -53,6 +53,5 @@ exports.sendMessage = asyncHandler(async (req, res) => {
     chat: chatId,
   });
   await messageDoc.save();
-
   return res.json({ message: "succesfully sended" });
 });

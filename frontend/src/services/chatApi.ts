@@ -87,6 +87,7 @@ export const chatApi = createApi({
                 type: "messages" as const,
                 id: _id,
               })),
+              { type: "messages", id: "LIST" },
             ]
           : [{ type: "messages", id: "LIST" }],
     }),

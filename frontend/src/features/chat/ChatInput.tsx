@@ -16,7 +16,9 @@ export default function ChatInput({
   async function sendMessageHandler() {
     if (chatId && message) {
       try {
-        await sendMessage({ chatId, message }).unwrap();
+        const sendedMessage = await sendMessage({ chatId, message }).unwrap();
+        console.log(sendedMessage);
+
         onSendMessage(message);
         setMessage("");
       } catch (e) {
