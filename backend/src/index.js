@@ -26,8 +26,14 @@ app.use((req, res, next) => {
 });
 app.use(require("./middleware/errorHandler"));
 
-mongoose.connect(process.env.MONGO_URI).then(() => {
-  server.listen(PORT, () => {
-    console.log("listening on *:3000");
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log("listening on *:3000");
+    });
+  })
+  .catch((e) => {
+    console.log("cant connect db");
+    console.log(e);
   });
-});
