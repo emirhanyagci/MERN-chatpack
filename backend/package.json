@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "my chat app",
   "scripts": {
-    "start": "node app",
+    "start": "node src/index.js",
     "dev": "nodemon --env-file=.env src/index.js"
   },
   "main": "index.js",
