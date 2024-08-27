@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Chat = require("../models/Chat");
 
 const setSignedUrl = require("../utils/setSignedUrl");
-const { log } = require("console");
+
 // @desc get chat details
 // @route GET /chat/:chatId
 // @access Private

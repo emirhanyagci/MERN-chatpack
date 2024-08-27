@@ -78,6 +78,8 @@ export const chatApi = createApi({
           ? [{ type: "chats", id: result.chat._id }]
           : [{ type: "chats", id: "LIST" }],
     }),
+    createChat: builder.mutation<ApiResponse, string>({}),
+    createGroup: builder.mutation<ApiResponse, string>({}),
     getMessages: builder.query<ApiResponse, string>({
       query: (chatId) => `/chat/${chatId}/messages`,
       providesTags: (result) =>
