@@ -25,6 +25,7 @@ app.use((req, res, next) => {
   res.send({ test: "welcome root2" });
 });
 app.use(require("./middleware/errorHandler"));
+console.log(" testt");
 
 mongoose
   .connect(process.env.MONGO_URI)
