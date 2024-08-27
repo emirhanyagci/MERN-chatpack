@@ -29,6 +29,8 @@ app.use(require("./middleware/errorHandler"));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+    console.log("connected to db");
+
     server.listen(PORT, () => {
       console.log("listening on *:3000");
     });

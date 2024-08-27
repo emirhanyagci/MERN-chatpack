@@ -11,6 +11,9 @@ const io = new Server(server, {
   },
 });
 io.on("connection", async (socket) => {
+  if (!socket.handshake.auth.token.userId) {
+    return socket.disconnect();
+  }
   const userId = decodeJWT(socket.handshake.auth.token).userId;
   const chatIds = await getChatHistory(userId);
   chatIds.forEach((chatId) => {
