@@ -25,14 +25,14 @@ export default function UserBadge({
             className="inline-flex cursor-pointer justify-between gap-1"
             variant="secondary"
           >
-            <Avatar size={5} src={user.avatarUrl as string} fallback={uname} />
+            <Avatar size={5} src={user.avatar as string} fallback={uname} />
             <span>{user.username}</span>
             <X onClick={() => unSelectUser(user)} size={16} />
           </Badge>
         </HoverCardTrigger>
         <HoverCardContent className="w-80">
           <div className="flex justify-around space-x-2">
-            <Avatar size={16} src={user.avatarUrl as string} fallback="EY" />
+            <Avatar size={16} src={user.avatar as string} fallback="EY" />
             <div className="space-y-1">
               <h4 className="text-sm font-semibold">@{user.username}</h4>
               <p className="text-sm">

@@ -12,17 +12,20 @@ import {
 } from "@/components/ui/dialog";
 import NewChatTab from "./NewChatTab";
 import NewGroupTab from "./NewGroupTab";
+import { useState } from "react";
 export default function NewChat() {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="aspect-square rounded-full p-1">
             <Plus />
           </Button>
         </DialogTrigger>
         <DialogContent disableDefaultClose={true}>
-          <Tabs defaultValue="newGroup">
+          <Tabs defaultValue="newChat">
             <DialogHeader>
               <TabsList className="w-full">
                 <TabsTrigger className="w-1/2" value="newChat">
@@ -34,10 +37,10 @@ export default function NewChat() {
               </TabsList>
             </DialogHeader>
             <TabsContent value="newChat">
-              <NewChatTab />
+              <NewChatTab setOpenHandler={setOpen} />
             </TabsContent>
             <TabsContent value="newGroup">
-              <NewGroupTab />
+              <NewGroupTab setOpenHandler={setOpen} />
             </TabsContent>
           </Tabs>
         </DialogContent>

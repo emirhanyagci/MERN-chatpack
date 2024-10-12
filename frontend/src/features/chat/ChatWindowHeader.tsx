@@ -15,14 +15,13 @@ export default function ChatWindowHeader() {
   const chat = data?.chat;
 
   if (!chat) return;
-  console.log(currentUser, chat);
   const receiverUser = chat.members.find(({ _id }) => _id !== currentUser._id);
   return (
     <header className="flex items-center justify-between border-b border-border p-5">
       <div className="flex items-center gap-3">
-        <Avatar src={receiverUser?.avatar} fallback="EY" />
+        <Avatar src={receiverUser?.avatar as string} fallback="EY" />
         <div className="flex flex-col">
-          <h2>Emirhan Yagci</h2>
+          <h2>{receiverUser?.username}</h2>
           <UserActiveStatus />
         </div>
       </div>

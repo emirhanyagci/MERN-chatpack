@@ -14,15 +14,16 @@ exports.getChat = asyncHandler(async (req, res, next) => {
   const chat = await Chat.findById(chatId)
     .populate({ path: "members", select: "-password" })
     .exec();
+  if (!chat) {
+    return res.status(404).json({ message: "Chat not found" });
+  }
   const memberIds = chat.members.map((member) => member._id.toString());
   if (memberIds.indexOf(userId) === -1) {
     return res
       .status(401)
       .json({ message: "You are not a member of this chat" });
   }
-  if (!chat) {
-    return res.status(404).json({ message: "Chat not found" });
-  }
+
   if (chat.isGroupChat && chat.groupImage) {
     chat.groupImage = await setSignedUrl(chat.groupImage);
   }
@@ -45,12 +46,23 @@ exports.createNewChat = asyncHandler(async (req, res, next) => {
     });
   }
   const members = [creatorId, participantId];
+  const duplicateChat = await Chat.findOne({
+    members: { $all: members, $size: 2 },
+    isGroupChat: false,
+  });
+  console.log(duplicateChat);
+  if (duplicateChat) {
+    return res
+      .status(200)
+      .json({ message: "Chat already exists", chatId: duplicateChat._id });
+  }
   const chat = await Chat.create({ isGroupChat: false, members });
   if (!chat) {
     return res.status(400).json({ message: "Invalid chat data received" });
   } else {
     res.status(201).json({
       message: "Chat successfully created",
+      chatId: chat._id,
     });
   }
 });
@@ -82,6 +94,7 @@ exports.createNewGroup = asyncHandler(async (req, res, next) => {
   } else {
     res.status(201).json({
       message: "Group successfully created",
+      chatId: group._id,
     });
   }
 });

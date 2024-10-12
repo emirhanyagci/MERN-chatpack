@@ -16,6 +16,7 @@ export default function ChatMessagesWrapper() {
   const { data, isLoading } = useGetMessagesQuery(chatId as string, {
     skip: !chatId,
   });
+
   const messages = data?.messages;
   useEffect(() => {
     socket?.on("send-message", () => {

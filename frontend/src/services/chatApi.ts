@@ -59,6 +59,13 @@ interface SendMessage {
   chatId: string;
   message: string;
 }
+interface CreateChat {
+  userId: string;
+}
+interface CreateGroup {
+  groupName: string;
+  userIds: string[];
+}
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: baseQueryWithReauth,
@@ -78,8 +85,22 @@ export const chatApi = createApi({
           ? [{ type: "chats", id: result.chat._id }]
           : [{ type: "chats", id: "LIST" }],
     }),
-    createChat: builder.mutation<ApiResponse, string>({}),
-    createGroup: builder.mutation<ApiResponse, string>({}),
+    createChat: builder.mutation<ApiResponse, CreateChat>({
+      query: ({ userId }) => ({
+        url: "chat/create-chat",
+        method: "POST",
+        body: { userId },
+      }),
+      invalidatesTags: () => ["chats"],
+    }),
+    createGroup: builder.mutation<ApiResponse, CreateGroup>({
+      query: ({ userIds, groupName }) => ({
+        url: "chat/create-group",
+        method: "POST",
+        body: { userIds, groupName },
+      }),
+      invalidatesTags: () => ["chats"],
+    }),
     getMessages: builder.query<ApiResponse, string>({
       query: (chatId) => `/chat/${chatId}/messages`,
       providesTags: (result) =>
@@ -109,4 +130,6 @@ export const {
   useGetChatQuery,
   useGetMessagesQuery,
   useSendMessageMutation,
+  useCreateChatMutation,
+  useCreateGroupMutation,
 } = chatApi;

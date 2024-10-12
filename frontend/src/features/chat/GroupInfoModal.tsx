@@ -53,7 +53,7 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
               src="https://github.com/shadcn.png"
               fallback="EY"
             />
-            <span className="text-base text-foreground">Fantastic Four</span>
+            <span className="text-base text-foreground">{group.groupName}</span>
           </div>
           <div>
             <div className="flex flex-col">

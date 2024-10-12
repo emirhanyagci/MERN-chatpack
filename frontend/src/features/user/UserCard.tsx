@@ -1,8 +1,7 @@
 import Avatar from "@/components/Avatar";
 import { Badge } from "@/components/ui/badge";
-import { User } from "./userSlice";
-import { Button } from "@/components/ui/button";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { selectUser, User } from "./userSlice";
+import { useSelector } from "react-redux";
 
 export default function UserCard({
   user,
@@ -15,7 +14,9 @@ export default function UserCard({
   withRole?: boolean;
   selectHandler?: (user: User) => void;
 }) {
+  const activeUser = useSelector(selectUser);
   if (!user.username) return null;
+  const isCurrentUser = activeUser._id === user._id;
   const uname = user.username.slice(0, 2);
   return (
     <div
@@ -25,13 +26,17 @@ export default function UserCard({
       <div className="flex w-full items-center gap-3">
         <Avatar src={user.avatar as string} fallback={uname} />
         <div className="flex w-full flex-col items-start">
-          <h3 className="text-base text-foreground">{user.username}</h3>
-          <span
-            className="max-w-[22ch] overflow-hidden text-xs text-muted-foreground"
-            title=" emirhan.yacis@gmail.com"
-          >
-            {user.email}
-          </span>
+          <h3 className="text-base text-foreground">
+            {isCurrentUser ? "you" : user.username}
+          </h3>
+          {!isCurrentUser && (
+            <span
+              className="max-w-[22ch] overflow-hidden text-xs text-muted-foreground"
+              title={user.email as string}
+            >
+              {user.email}
+            </span>
+          )}
           {withRole && (
             <Badge
               variant="secondary"
