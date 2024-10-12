@@ -5,11 +5,8 @@ const express = require("express");
 const app = express();
 const { getChatHistory } = require("../services/chatServices");
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: require("../config/allowedOrigins"),
-  },
-});
+const io = new Server(server);
+io.set("origins", require("../config/allowedOrigins"));
 io.on("connection", async (socket) => {
   if (!socket.handshake.auth.token) {
     return socket.disconnect();
