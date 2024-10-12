@@ -19,6 +19,8 @@ export default function ChatWindow() {
   if (!data) return null;
   const chat = data?.chat;
   function sendMessageHandler(message: string) {
+    console.log(message);
+
     socket?.emit("new-message", { chatId });
   }
   return (
