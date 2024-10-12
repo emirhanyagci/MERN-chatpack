@@ -5,8 +5,15 @@ const express = require("express");
 const app = express();
 const { getChatHistory } = require("../services/chatServices");
 const server = http.createServer(app);
-const io = new Server(server);
-io.set("origins", require("../config/allowedOrigins"));
+const io = new Server(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "http://locahost:3000",
+      "https://mern-chatpack-frontend.vercel.app",
+    ],
+  },
+});
 io.on("connection", async (socket) => {
   if (!socket.handshake.auth.token) {
     return socket.disconnect();
