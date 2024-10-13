@@ -112,7 +112,7 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   }
 
   for (let chat of chats) {
-    if (chat.isGroupChat && !chat.groupImage) break;
+    if (chat.isGroupChat && !chat.groupImage) continue;
     if (chat.groupImage) {
       chat.groupImage = await setSignedUrl(chat.groupImage);
     } else {
