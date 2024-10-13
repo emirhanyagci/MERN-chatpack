@@ -14,7 +14,6 @@ export default function ChatCard({ chat }: { chat: Chat }) {
   const receiverUser = members.find(({ _id }) => _id !== user._id);
 
   const title = chat.isGroupChat ? groupName : receiverUser?.username;
-  console.log(chat);
 
   const avatarFallback = title?.slice(0, 2);
   function onSelect() {
