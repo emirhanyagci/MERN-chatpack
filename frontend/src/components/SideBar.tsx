@@ -11,16 +11,27 @@ export default function SideBar() {
   const { socket } = useSocketContext();
   const dispatch = useDispatch();
   useEffect(() => {
+    function onCreateChat(chatId: string) {
+      socket?.emit("join-room", chatId);
+      dispatch(chatApi.util.invalidateTags(["chats"]));
+    }
+    function onCreateGroup(chatId: string) {
+      console.log("new group created", chatId);
+
+      socket?.emit("join-room", chatId);
+      dispatch(chatApi.util.invalidateTags(["chats"]));
+    }
+
     socket?.on("create-chat", ({ chatId }) => {
-      socket.emit("join-room", chatId);
-      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: "LIST" }]));
+      onCreateChat(chatId);
     });
     socket?.on("create-group", ({ chatId }) => {
-      console.log("new group created");
-
-      socket.emit("join-room", chatId);
-      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: "LIST" }]));
+      onCreateGroup(chatId);
     });
+    return () => {
+      socket?.off("create-chat", onCreateChat);
+      socket?.off("create-group", onCreateGroup);
+    };
   }, []);
 
   return (

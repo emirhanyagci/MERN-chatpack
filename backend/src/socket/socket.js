@@ -21,6 +21,8 @@ io.on("connection", async (socket) => {
   const userId = user.userId;
   const chats = await getChatHistory(userId);
   socket.join(userId.toString());
+  console.log("user joined room", userId);
+
   chats.forEach((chat) => {
     socket.join(chat._id.toString());
   });
@@ -34,7 +36,9 @@ io.on("connection", async (socket) => {
   });
   socket.on("new-group", ({ selectedUsers, chatId }) => {
     selectedUsers.forEach((user) => {
-      socket.to(user._id).emit("create-group", { chatId });
+      console.log(user._id);
+
+      socket.to(user._id.toString()).emit("create-group", { chatId });
     });
   });
   socket.on("join-room", (room) => {

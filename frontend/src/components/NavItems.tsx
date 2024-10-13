@@ -34,6 +34,7 @@ export default function NavItems() {
           onCheckedChange={darkModeHandler}
         />
       </NavItem>
+      <NavItem Icon={Moon} title="Sign out"></NavItem>
     </ul>
   );
 }

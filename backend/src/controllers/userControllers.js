@@ -3,6 +3,7 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { GetObjectCommand } = require("@aws-sdk/client-s3");
 const s3 = require("../aws/client");
 const User = require("../models/User");
+const setSignedUrl = require("../utils/setSignedUrl");
 // @desc get logged in user
 // @route GET /user/current
 // @access Private
@@ -15,6 +16,7 @@ exports.getCurrentUser = asyncHandler(async (req, res, next) => {
       message: "User not found",
     });
   }
+  user.avatar = await setSignedUrl(user.avatar);
   return res.json(user);
 });
 // @desc Search user

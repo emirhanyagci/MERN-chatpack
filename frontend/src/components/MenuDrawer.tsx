@@ -10,34 +10,38 @@ import {
 } from "@/components/ui/sheet";
 import NavItems from "./NavItems";
 import Avatar from "@/components/Avatar";
+import { useSelector } from "react-redux";
+import { selectIsAuthed, selectUser } from "@/features/user/userSlice";
 
 export default function MenuDrawer() {
+  const user = useSelector(selectUser);
+  const isAuthed = useSelector(selectIsAuthed);
+  console.log(user);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Menu className="cursor-pointer text-primary" />
       </SheetTrigger>
-      <SheetContent side="left">
+      <SheetContent side="left" className="h-screen">
         <SheetHeader>
           <SheetTitle className="mb-5 text-2xl text-primary">
             ChatPack
           </SheetTitle>
+        </SheetHeader>
+        {isAuthed && (
           <SheetDescription asChild>
             <div>
               <div className="space-y-5">
                 <div className="flex flex-col items-center justify-center gap-2">
-                  <Avatar
-                    size={24}
-                    src="https://github.com/shadcn.png"
-                    fallback="EY"
-                  />
+                  <Avatar size={24} src={user.avatar as string} fallback="EY" />
 
                   <div className="flex flex-col items-center">
                     <span className="text-base text-foreground">
-                      Emirhan Yagci
+                      {user.username}
                     </span>
                     <span className="text-sms lette text-muted-foreground">
-                      #668e42be8c47ce79ad4648f7
+                      #{user._id}
                     </span>
                   </div>
                 </div>
@@ -45,21 +49,20 @@ export default function MenuDrawer() {
                 <div className="space-y-3 border-b border-border pb-3">
                   <div className="flex flex-col">
                     <span className="text-muted-foreground">E-mail</span>
-                    <span className="text-foreground">
-                      emirhan.yacis@gmail.com
-                    </span>
+                    <span className="text-foreground">{user.email}</span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-muted-foreground">Status</span>
-                    <span className="text-foreground">Fullstack Developer</span>
+                    <span className="text-foreground">
+                      {user.status || "Hey there! I am using ChatPack."}
+                    </span>
                   </div>
                 </div>
                 <NavItems />
               </div>
-              <div></div>
             </div>
           </SheetDescription>
-        </SheetHeader>
+        )}
       </SheetContent>
     </Sheet>
   );

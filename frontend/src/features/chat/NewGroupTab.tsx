@@ -45,6 +45,8 @@ export default function NewGroupTab({
       const userIds = selectedUsers.map((user) => user._id as string);
       const chat = await createGroup({ userIds, groupName }).unwrap();
       socket?.emit("new-group", { selectedUsers, chatId: chat.chatId });
+      console.log("new group");
+
       socket?.emit("join-room", chat.chatId);
       navigate(`/home/${chat.chatId}`);
       setOpenHandler(false);
