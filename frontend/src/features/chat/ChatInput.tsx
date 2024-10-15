@@ -27,6 +27,13 @@ export default function ChatInput({
     }
   }
 
+  function onKeyUpHandler(e: any) {
+    console.log(e.key);
+    if (e.key === "Enter") {
+      sendMessageHandler();
+    }
+  }
+
   return (
     <div className="flex items-center gap-1 p-5">
       <Button disabled={result.isLoading} variant="ghost" size="icon">
@@ -37,6 +44,7 @@ export default function ChatInput({
       </Button>
       <Input
         disabled={result.isLoading}
+        onKeyUp={onKeyUpHandler}
         className="flex-1"
         type="text"
         value={message}
