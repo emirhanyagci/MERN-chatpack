@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 export default function TextItem({
   message,
@@ -28,7 +29,9 @@ export default function TextItem({
         )}
       >
         <span>{message.message}</span>
-        <span className="text-end">{format(message.createdAt, "kk:mm")}</span>
+        <span className="flex text-end">
+          {format(message.createdAt, "kk:mm")} <Check size={16} />
+        </span>
       </div>
       {!isSender && (
         <div className="h-9 w-9">

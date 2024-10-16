@@ -120,7 +120,10 @@ export const chatApi = createApi({
         method: "POST",
         body: { message },
       }),
-      invalidatesTags: () => [{ type: "messages", id: "LIST" }],
+      invalidatesTags: (result) => [
+        { type: "messages", id: "LIST" },
+        { type: "chats", id: result?.chatId },
+      ],
     }),
   }),
 });

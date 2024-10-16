@@ -12,9 +12,7 @@ export default function ChatWindow() {
   const { chatId } = useParams();
   const { socket } = useSocketContext();
   const navigate = useNavigate();
-  const { data, isLoading, isFetching, isError } = useGetChatQuery(
-    chatId as string,
-  );
+  const { data, isLoading, isError } = useGetChatQuery(chatId as string);
   if (!data && isError) navigate("/home");
   if (!data) return null;
   const chat = data?.chat;
@@ -23,10 +21,11 @@ export default function ChatWindow() {
 
     socket?.emit("new-message", { chatId });
   }
+
   return (
     <section className="flex h-full flex-col">
       <MainNavBar />
-      {isLoading || isFetching ? (
+      {isLoading ? (
         <div className="grid h-full w-full place-content-center">
           <Loader size={64} />
         </div>

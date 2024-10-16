@@ -20,6 +20,7 @@ export default function ChatMessagesWrapper() {
   const messages = data?.messages;
   useEffect(() => {
     socket?.on("send-message", () => {
+      // update message as seen
       dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
     });
   }, []);

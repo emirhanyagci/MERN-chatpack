@@ -27,8 +27,6 @@ export default function NewGroupTab({
       if (uIndex === -1) {
         return [...oldUsers, user];
       }
-      console.log(uIndex);
-      console.log(oldUsers);
 
       const newUsers = oldUsers.filter((u) => u._id !== user._id);
 
@@ -96,7 +94,9 @@ export default function NewGroupTab({
         </DialogClose>
         <Button
           onClick={createGroupHandler}
-          disabled={!selectedUsers || selectedUsers.length <= 0}
+          disabled={
+            !selectedUsers || selectedUsers.length <= 0 || result.isLoading
+          }
         >
           Create Group
         </Button>

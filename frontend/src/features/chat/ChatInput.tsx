@@ -16,9 +16,7 @@ export default function ChatInput({
   async function sendMessageHandler() {
     if (chatId && message) {
       try {
-        const sendedMessage = await sendMessage({ chatId, message }).unwrap();
-        console.log(sendedMessage);
-
+        await sendMessage({ chatId, message }).unwrap();
         onSendMessage(message);
         setMessage("");
       } catch (e) {
@@ -28,7 +26,6 @@ export default function ChatInput({
   }
 
   function onKeyUpHandler(e: any) {
-    console.log(e.key);
     if (e.key === "Enter") {
       sendMessageHandler();
     }

@@ -12,7 +12,8 @@ export interface Chat {
   _id: string;
   members: User[];
   messages: Message[];
-  lastMessage: string;
+  lastMessage: Message;
+  unreadMessages: Message[];
   isGroupChat: boolean;
   owner: string;
   managers: string[];

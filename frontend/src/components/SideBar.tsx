@@ -16,8 +16,6 @@ export default function SideBar() {
       dispatch(chatApi.util.invalidateTags(["chats"]));
     }
     function onCreateGroup(chatId: string) {
-      console.log("new group created", chatId);
-
       socket?.emit("join-room", chatId);
       dispatch(chatApi.util.invalidateTags(["chats"]));
     }

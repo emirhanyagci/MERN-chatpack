@@ -9,7 +9,14 @@ export default function ChatCard({ chat }: { chat: Chat }) {
   const user = useSelector(selectUser);
   const { chatId } = useParams();
   const navigate = useNavigate();
-  const { lastMessage, members, isGroupChat, groupImage, groupName } = chat;
+  const {
+    lastMessage,
+    members,
+    isGroupChat,
+    groupImage,
+    groupName,
+    unreadMessages,
+  } = chat;
   // if this chat not group chat
   const receiverUser = members.find(({ _id }) => _id !== user._id);
 
@@ -38,10 +45,10 @@ export default function ChatCard({ chat }: { chat: Chat }) {
         </div>
         <div className="flex justify-between text-sm">
           <span className="inline-block max-w-[20ch] overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
-            {lastMessage}
+            {lastMessage.message || "Start chat!!"}
           </span>
 
-          <CountBadge count={3} />
+          <CountBadge count={unreadMessages.length} />
         </div>
       </div>
     </div>

@@ -70,7 +70,6 @@ export const authApi = createApi({
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           const { accessToken } = data;
           dispatch(
             setSession({ accessToken: accessToken as string, isAuthed: true }),
