@@ -4,7 +4,6 @@ const corsOptions = require("./config/corsOptions");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { logger } = require("./middleware/logger");
-const http = require("http");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const { app, server } = require("./socket/socket");

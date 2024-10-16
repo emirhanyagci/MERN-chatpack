@@ -3,6 +3,8 @@ const User = require("../models/User");
 const Chat = require("../models/Chat");
 
 const setSignedUrl = require("../utils/setSignedUrl");
+const { UnreadMessage } = require("../models/Message");
+const { log } = require("node:console");
 
 // @desc get chat details
 // @route GET /chat/:chatId
@@ -105,8 +107,10 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   const userId = req.user.userId;
 
   const chats = await Chat.find({ members: userId })
-    .populate({ path: "members", select: "-password" })
+    .populate({ path: "members lastMessage", select: "-password" })
+    .lean()
     .exec();
+
   if (!chats.length) {
     return res.status(204).json({ chats, message: "No chats found" });
   }
@@ -128,7 +132,20 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
         participant.avatar
       );
     }
-  }
 
+    const unreadMessages = await UnreadMessage.find({
+      chat: chat._id,
+      member: userId,
+    }).exec();
+    console.log(unreadMessages);
+  }
+  for (let chat of chats) {
+    const unreadMessages = await UnreadMessage.find({
+      chat: chat._id,
+      member: userId,
+    }).exec();
+
+    chat.unreadMessages = unreadMessages;
+  }
   return res.json({ chats });
 });

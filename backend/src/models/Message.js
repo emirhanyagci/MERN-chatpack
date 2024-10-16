@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const messageSchema = new mongoose.Schema(
   {
     sender: {
@@ -22,5 +21,30 @@ const messageSchema = new mongoose.Schema(
     versionKey: false,
   }
 );
-
-module.exports = mongoose.model("Message", messageSchema);
+const unreadMessageSchema = new mongoose.Schema(
+  {
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+      required: true,
+    },
+    member: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    message: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
+module.exports = {
+  Message: mongoose.model("Message", messageSchema),
+  UnreadMessage: mongoose.model("UnreadMessage", unreadMessageSchema),
+};

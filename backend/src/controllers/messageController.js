@@ -1,8 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Chat = require("../models/Chat");
-const Message = require("../models/Message");
+const { Message, UnreadMessage } = require("../models/Message");
 const setSignedUrl = require("../utils/setSignedUrl");
-const { io } = require("../socket/socket");
 
 // @desc get all message of specific chat
 // @route GET /chat/:chatId/messages
@@ -39,7 +38,6 @@ exports.getMessages = asyncHandler(async (req, res) => {
 exports.sendMessage = asyncHandler(async (req, res) => {
   const chatId = req.params.chatId;
   const { message } = req.body;
-  console.log(chatId);
   const chat = await Chat.findById(chatId);
   if (!chat) {
     return res.status(404).json({ message: "Chat not found" });
@@ -47,11 +45,25 @@ exports.sendMessage = asyncHandler(async (req, res) => {
   if (chat.members.indexOf(req.user.userId) === -1) {
     return res.status(403).json({ message: "Access denied" });
   }
+
   const messageDoc = new Message({
     sender: req.user.userId,
     message: message,
     chat: chatId,
   });
+  chat.lastMessage = messageDoc._id;
+  await chat.save();
+
+  chat.members.forEach(async (member) => {
+    if (member.toString() !== req.user.userId) {
+      const unreadMessage = new UnreadMessage({
+        chat: chat._id,
+        member: member._id,
+        message: messageDoc._id,
+      });
+      await unreadMessage.save();
+    }
+  });
   await messageDoc.save();
-  return res.json({ message: "succesfully sended" });
+  return res.json({ message: "succesfully sended", chatId: chat._id });
 });

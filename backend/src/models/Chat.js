@@ -13,15 +13,10 @@ const chatSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    unreadMessagesCount: [
-      {
-        type: Object,
-        default: [],
-      },
-    ],
+
     lastMessage: {
-      type: String,
-      default: "Start chat!",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
