@@ -66,10 +66,14 @@ interface CreateGroup {
   groupName: string;
   userIds: string[];
 }
+interface GetUnreadMessage {
+  chatId: string;
+  messageId: string;
+}
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["chats", "messages"],
+  tagTypes: ["chats", "messages", "unread-messages"],
   endpoints: (builder) => ({
     getChatHistory: builder.query<ApiResponse, void>({
       query: () => "/chat/history",
@@ -84,6 +88,22 @@ export const chatApi = createApi({
         result
           ? [{ type: "chats", id: result.chat._id }]
           : [{ type: "chats", id: "LIST" }],
+    }),
+    getUnreadMessages: builder.query<ApiResponse, GetUnreadMessage>({
+      query: ({ chatId, messageId }) => ({
+        url: `/chat/${chatId}/read`,
+        params: { messageId },
+      }),
+      providesTags: (result) =>
+        result?.messages
+          ? [
+              ...result.messages.map(({ _id }) => ({
+                type: "unread-messages" as const,
+                id: _id,
+              })),
+              { type: "unread-messages", id: "LIST" },
+            ]
+          : [{ type: "unread-messages", id: "LIST" }],
     }),
     createChat: builder.mutation<ApiResponse, CreateChat>({
       query: ({ userId }) => ({
@@ -125,6 +145,12 @@ export const chatApi = createApi({
         { type: "chats", id: result?.chatId },
       ],
     }),
+    setAsRead: builder.mutation<ApiResponse, string>({
+      query: (chatId) => ({
+        url: `/chat/${chatId}/read`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -135,4 +161,6 @@ export const {
   useSendMessageMutation,
   useCreateChatMutation,
   useCreateGroupMutation,
+  useSetAsReadMutation,
+  useGetUnreadMessagesQuery,
 } = chatApi;

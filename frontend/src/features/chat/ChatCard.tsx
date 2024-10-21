@@ -45,7 +45,7 @@ export default function ChatCard({ chat }: { chat: Chat }) {
         </div>
         <div className="flex justify-between text-sm">
           <span className="inline-block max-w-[20ch] overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
-            {lastMessage.message || "Start chat!!"}
+            {lastMessage?.message || "Start chat!!"}
           </span>
 
           <CountBadge count={unreadMessages.length} />

@@ -4,7 +4,9 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../user/userSlice";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Check, CheckCheck } from "lucide-react";
+import { useGetUnreadMessagesQuery } from "@/services/chatApi";
+import { useParams } from "react-router-dom";
 
 export default function TextItem({
   message,
@@ -15,6 +17,14 @@ export default function TextItem({
 }) {
   const currentUser = useSelector(selectUser);
   const isSender = message?.sender._id === currentUser._id;
+  const { chatId } = useParams();
+
+  const { data } = useGetUnreadMessagesQuery({
+    chatId: chatId as string,
+    messageId: message._id as string,
+  });
+  console.log(data);
+
   return (
     <li
       className={cn(
@@ -29,8 +39,14 @@ export default function TextItem({
         )}
       >
         <span>{message.message}</span>
-        <span className="flex text-end">
-          {format(message.createdAt, "kk:mm")} <Check size={16} />
+        <span className="flex items-center gap-1 text-end">
+          {format(message.createdAt, "kk:mm")}
+          {isSender && (
+            <div>
+              <Check size={15} />{" "}
+              {/* <CheckCheck size={15} className="text-primary" /> */}
+            </div>
+          )}
         </span>
       </div>
       {!isSender && (

@@ -149,3 +149,49 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
   }
   return res.json({ chats });
 });
+// @desc set as readed messages
+// @route PATCH /chat/:chatId/read
+// @access Private
+exports.setAsRead = asyncHandler(async (req, res, next) => {
+  const userId = req.user.userId;
+  const chatId = req.params.chatId;
+
+  const unreadMessages = await UnreadMessage.find({
+    chat: chatId,
+    member: userId,
+  }).exec();
+  if (!unreadMessages.length) {
+    return res.status(404).json({ message: "No unread messages found" });
+  }
+  const deletedUnreadMessages = await UnreadMessage.deleteMany({
+    chat: chatId,
+    member: userId,
+  }).exec();
+  return res.json({
+    message: "Successfully marked as read",
+    readedCount: deletedUnreadMessages.deletedCount,
+  });
+});
+// @desc get unread messages for specific chat
+// @route GET /chat/:chatId/read
+// @access Private
+exports.getUnreadMessages = asyncHandler(async (req, res, next) => {
+  const chatId = req.params.chatId;
+  const messageId = req.query.messageId;
+  const userId = req.user.userId;
+  const unreadMessages = await UnreadMessage.find({
+    chat: chatId,
+    message: messageId,
+  }).exec();
+  const chat = await Chat.findById(chatId).exec();
+
+  if (!chat.members.includes(userId)) {
+    return res
+      .status(403)
+      .json({ message: "You are not a member of this chat" });
+  }
+  return res.json({
+    message: "Successfully",
+    messages: unreadMessages,
+  });
+});

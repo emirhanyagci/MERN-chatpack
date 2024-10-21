@@ -36,13 +36,14 @@ io.on("connection", async (socket) => {
   });
   socket.on("new-group", ({ selectedUsers, chatId }) => {
     selectedUsers.forEach((user) => {
-      console.log(user._id);
-
       socket.to(user._id.toString()).emit("create-group", { chatId });
     });
   });
   socket.on("join-room", (room) => {
     socket.join(room);
+  });
+  socket.on("message-read", ({ chatId }) => {
+    socket.broadcast.to(chatId).emit("read-message", { chatId });
   });
 });
 module.exports = { app, server, io };
