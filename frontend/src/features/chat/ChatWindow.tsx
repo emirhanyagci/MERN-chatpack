@@ -19,6 +19,7 @@ export default function ChatWindow() {
   useEffect(() => {
     function onReadMessage(chatId: string) {
       console.log("message readed");
+      console.log(chatId);
 
       dispatch(
         chatApi.util.invalidateTags([{ type: "unread-messages", id: "LIST" }]),

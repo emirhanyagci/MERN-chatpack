@@ -21,6 +21,7 @@ export default function ChatMessagesWrapper() {
   const { data, isLoading } = useGetMessagesQuery(chatId as string, {
     skip: !chatId,
   });
+  console.log(result);
 
   const messages = data?.messages;
   useEffect(() => {
