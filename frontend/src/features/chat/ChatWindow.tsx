@@ -20,7 +20,9 @@ export default function ChatWindow() {
     function onReadMessage(chatId: string) {
       console.log("message readed");
 
-      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: chatId }]));
+      dispatch(
+        chatApi.util.invalidateTags([{ type: "unread-messages", id: "LIST" }]),
+      );
     }
 
     socket?.on("read-message", ({ chatId }) => {

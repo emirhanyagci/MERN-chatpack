@@ -19,11 +19,10 @@ export default function TextItem({
   const isSender = message?.sender._id === currentUser._id;
   const { chatId } = useParams();
 
-  const { data } = useGetUnreadMessagesQuery({
+  const { data, isLoading } = useGetUnreadMessagesQuery({
     chatId: chatId as string,
     messageId: message._id as string,
   });
-  console.log(data);
 
   return (
     <li
@@ -35,16 +34,20 @@ export default function TextItem({
       <div
         className={cn(
           "flex max-w-64 flex-col rounded-lg p-2 text-sm",
-          !isSender ? "bg-muted" : "bg-primary text-primary-foreground",
+          isSender ? "bg-muted" : "bg-primary text-primary-foreground",
         )}
       >
         <span>{message.message}</span>
         <span className="flex items-center gap-1 text-end">
           {format(message.createdAt, "kk:mm")}
+
           {isSender && (
             <div>
-              <Check size={15} />{" "}
-              {/* <CheckCheck size={15} className="text-primary" /> */}
+              {(data?.messages.length as number) == 0 && !isLoading ? (
+                <CheckCheck size={15} className="text-primary" />
+              ) : (
+                <Check size={15} />
+              )}
             </div>
           )}
         </span>
