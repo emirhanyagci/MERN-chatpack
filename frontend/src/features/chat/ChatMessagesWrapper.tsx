@@ -21,25 +21,24 @@ export default function ChatMessagesWrapper() {
   const { data, isLoading } = useGetMessagesQuery(chatId as string, {
     skip: !chatId,
   });
-  console.log(result);
 
   const messages = data?.messages;
   useEffect(() => {
     setAsRead(chatId as string)
       .unwrap()
       .then((response) => {
-        console.log(response);
+        console.log("Message readed",response);
         socket?.emit("message-read", { chatId });
       });
-    socket?.on("send-message", () => {
-      setAsRead(chatId as string)
-        .unwrap()
-        .then((response) => {
-          console.log(response);
-          socket?.emit("message-read", { chatId });
-        });
-      dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
-    });
+    // socket?.on("send-message", () => {
+    //   setAsRead(chatId as string)
+    //     .unwrap()
+    //     .then((response) => {
+    //       console.log(response);
+    //       socket?.emit("message-read", { chatId });
+    //     });
+    //   dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
+    // });
   }, []);
   useEffect(() => {
     if (!messages) return;

@@ -133,11 +133,6 @@ exports.getChatHistory = asyncHandler(async (req, res, next) => {
       );
     }
 
-    const unreadMessages = await UnreadMessage.find({
-      chat: chat._id,
-      member: userId,
-    }).exec();
-    console.log(unreadMessages);
   }
   for (let chat of chats) {
     const unreadMessages = await UnreadMessage.find({
@@ -161,7 +156,7 @@ exports.setAsRead = asyncHandler(async (req, res, next) => {
     member: userId,
   }).exec();
   if (!unreadMessages.length) {
-    return res.status(404).json({ message: "No unread messages found" });
+    return res.status(200).json({ message: "No unread messages found" });
   }
   const deletedUnreadMessages = await UnreadMessage.deleteMany({
     chat: chatId,
