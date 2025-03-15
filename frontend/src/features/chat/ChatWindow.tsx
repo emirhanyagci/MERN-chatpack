@@ -4,7 +4,7 @@ import ChatInput from "./ChatInput";
 import MainNavBar from "@/components/MainNavBar";
 import GroupWindowHeader from "./GroupWindowHeader";
 import { useNavigate, useParams } from "react-router-dom";
-import { chatApi, useGetChatQuery } from "@/services/chatApi";
+import { chatApi, useGetChatQuery, useSetAsReadMutation } from "@/services/chatApi";
 import Loader from "@/components/Loader";
 import { useSocketContext } from "@/Context/SocketContext";
 import { useEffect } from "react";
@@ -13,14 +13,13 @@ export default function ChatWindow() {
   const { chatId } = useParams();
   const { socket } = useSocketContext();
   const navigate = useNavigate();
+  const [setAsRead] = useSetAsReadMutation();
   const dispatch = useDispatch();
   const { data, isLoading, isError } = useGetChatQuery(chatId as string);
+
   useEffect(() => {
     function onReadMessage(chatId: string) {
-        dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]))
-      
-      console.log("message readed");
-      console.log(chatId);
+      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: chatId }, { type: "messages", id: "LIST" }]))
     }
 
     socket?.on("read-message", ({ chatId }) => {
@@ -31,6 +30,38 @@ export default function ChatWindow() {
       socket?.off("read-message", onReadMessage);
     };
   }, []);
+  useEffect(() => {
+    console.log("chatid", chatId);
+
+    setAsRead(chatId as string)
+      .unwrap()
+      .then(() => {
+        socket?.emit("message-read", { chatId });
+      });
+    function onSendMessage(args: { chatId: string }) {
+      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: args.chatId }]))
+      console.log("args.chatId", args.chatId)
+      console.log("chatId", chatId)
+      console.log(args.chatId == chatId);
+
+      if (args.chatId == chatId) {
+
+        setAsRead(chatId as string)
+          .unwrap()
+          .then(() => {
+            dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
+            socket?.emit("message-read", { chatId });
+          });
+      }
+    }
+    socket?.on("send-message", onSendMessage);
+
+    return () => {
+      socket?.off("send-message", onSendMessage);
+    }
+
+  }, [chatId]);
+
   if (!data && isError) navigate("/home");
   if (!data) return null;
   const chat = data?.chat;
