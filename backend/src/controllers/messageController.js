@@ -17,20 +17,19 @@ exports.getMessages = asyncHandler(async (req, res) => {
   }
   const messages = await Message.find({ chat: chatId })
     .sort({ createdAt: 1 })
-    .populate("sender")
+    .populate({ path: "sender", clone: true })
     .select("-password")
     .exec();
   if (!messages) {
     return res.status(404).json({ message: "No messages found" });
   }
-  let clonedMessages = JSON.parse(JSON.stringify(messages));
 
-  for (let message of clonedMessages) {
+  for (let message of messages) {
     message.sender.avatar = await setSignedUrl(message.sender.avatar);
   }
 
   //is member of this chat
-  return res.json({ messages: clonedMessages, message: "succesfully", chatId });
+  return res.json({ messages: messages, message: "succesfully", chatId });
 });
 // @desc get message of specific chat
 // @route POST /chat/:chatId/messages
@@ -56,6 +55,7 @@ exports.sendMessage = asyncHandler(async (req, res) => {
 
   chat.members.forEach(async (member) => {
     if (member.toString() !== req.user.userId) {
+
       const unreadMessage = new UnreadMessage({
         chat: chat._id,
         member: member._id,
