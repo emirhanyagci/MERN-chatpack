@@ -16,7 +16,6 @@ import { selectIsAuthed, selectUser } from "@/features/user/userSlice";
 export default function MenuDrawer() {
   const user = useSelector(selectUser);
   const isAuthed = useSelector(selectIsAuthed);
-  console.log(user);
 
   return (
     <Sheet>

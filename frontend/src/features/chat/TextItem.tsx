@@ -15,7 +15,6 @@ export default function TextItem({
 }) {
   const currentUser = useSelector(selectUser);
   const isSender = message?.sender._id === currentUser._id;
-  console.log("textitem message",message);
   
   
 

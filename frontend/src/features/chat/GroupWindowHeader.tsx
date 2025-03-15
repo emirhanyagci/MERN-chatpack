@@ -13,9 +13,7 @@ export default function GroupWindowHeader() {
   const user = useSelector(selectUser);
   const group = data?.chat;
   if (!group) return;
-  console.log(user);
 
-  console.log(group);
 
   return (
     <header className="flex items-center justify-between border-b border-border p-5">

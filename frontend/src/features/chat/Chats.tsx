@@ -4,7 +4,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useGetChatHistoryQuery } from "@/services/chatApi";
 export default function Chats() {
   const { data, isLoading } = useGetChatHistoryQuery();
-  console.log(data);
 
   return (
     <div className="space-y-2">

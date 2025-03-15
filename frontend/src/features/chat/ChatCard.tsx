@@ -17,6 +17,7 @@ export default function ChatCard({ chat }: { chat: Chat }) {
     groupName,
     unreadMessages,
   } = chat;
+  
   // if this chat not group chat
   const receiverUser = members.find(({ _id }) => _id !== user._id);
 
@@ -47,8 +48,9 @@ export default function ChatCard({ chat }: { chat: Chat }) {
           <span className="inline-block max-w-[20ch] overflow-hidden text-ellipsis whitespace-nowrap text-sm text-muted-foreground">
             {lastMessage?.message || "Start chat!!"}
           </span>
-
+          {unreadMessages.length > 0 &&
           <CountBadge count={unreadMessages.length} />
+          }
         </div>
       </div>
     </div>

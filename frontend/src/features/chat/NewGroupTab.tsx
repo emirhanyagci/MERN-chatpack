@@ -38,7 +38,6 @@ export default function NewGroupTab({
   }
   async function createGroupHandler() {
     try {
-      console.log(result);
 
       const userIds = selectedUsers.map((user) => user._id as string);
       const chat = await createGroup({ userIds, groupName }).unwrap();
