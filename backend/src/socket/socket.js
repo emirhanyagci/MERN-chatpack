@@ -28,7 +28,7 @@ io.on("connection", async (socket) => {
   });
   socket.on("new-message", ({ chatId }) => {
     console.log("->>", chatId);
-    socket.broadcast.to(chatId).emit("send-message");
+    socket.broadcast.to(chatId).emit("send-message", { chatId });
   });
   socket.on("new-chat", ({ userId, chatId }) => {
     console.log("->>", userId);
