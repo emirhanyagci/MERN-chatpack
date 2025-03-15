@@ -11,8 +11,8 @@ jobs:
 
     runs-on: ubuntu-latest
     defaults:
-    run:
-      working-directory: backend
+      run:
+        working-directory: backend
 
     strategy:
       matrix:
