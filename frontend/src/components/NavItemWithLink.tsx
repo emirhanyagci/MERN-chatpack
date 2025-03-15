@@ -8,11 +8,14 @@ export default function NavItemWithLink({
   title,
   to,
   children = null,
+  onClickHandler
 }: {
   Icon: React.ElementType;
   title: string;
   to: string;
   children?: React.ReactElement | null;
+  onClickHandler?: () => void;
+
 }) {
   return (
     <SheetClose asChild>
@@ -21,6 +24,7 @@ export default function NavItemWithLink({
           variant="ghost"
           className="flex w-full items-center justify-between"
           asChild
+          onClick={onClickHandler}
         >
           <div>
             <span className="flex gap-2">

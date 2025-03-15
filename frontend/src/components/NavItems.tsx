@@ -11,10 +11,16 @@ import NavItem from "./NavItem";
 import NavItemWithLink from "@/components/NavItemWithLink";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "@/Context/ThemeProvider";
+import { useDispatch } from "react-redux";
+import { logOut } from "@/features/user/userSlice";
 export default function NavItems() {
   const { setTheme, theme } = useTheme();
+  const dispatch = useDispatch();
   function darkModeHandler(isDark: boolean) {
     setTheme(isDark ? "dark" : "light");
+  }
+  function onSignOut() {
+    dispatch(logOut());
   }
   return (
     <ul>
@@ -34,7 +40,7 @@ export default function NavItems() {
           onCheckedChange={darkModeHandler}
         />
       </NavItem>
-      <NavItem Icon={Moon} title="Sign out"></NavItem>
+      <NavItemWithLink Icon={Moon} to="/" title="Sign out" onClickHandler={onSignOut}></NavItemWithLink>
     </ul>
   );
 }
