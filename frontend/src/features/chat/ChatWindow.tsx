@@ -9,21 +9,18 @@ import Loader from "@/components/Loader";
 import { useSocketContext } from "@/Context/SocketContext";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-
 export default function ChatWindow() {
   const { chatId } = useParams();
   const { socket } = useSocketContext();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { data, isLoading, isError } = useGetChatQuery(chatId as string);
   useEffect(() => {
     function onReadMessage(chatId: string) {
+        dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]))
+      
       console.log("message readed");
       console.log(chatId);
-
-      dispatch(
-        chatApi.util.invalidateTags([{ type: "unread-messages", id: "LIST" }]),
-      );
     }
 
     socket?.on("read-message", ({ chatId }) => {
@@ -60,4 +57,3 @@ export default function ChatWindow() {
     </section>
   );
 }
-// CHAT YOKSA NO CHAT PLACEHOLDER BURADA GOSTER

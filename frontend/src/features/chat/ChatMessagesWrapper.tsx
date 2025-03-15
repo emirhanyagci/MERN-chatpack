@@ -17,7 +17,7 @@ export default function ChatMessagesWrapper() {
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const { socket } = useSocketContext();
   const dispatch = useDispatch();
-  const [setAsRead, result] = useSetAsReadMutation();
+  const [setAsRead] = useSetAsReadMutation();
   const { data, isLoading } = useGetMessagesQuery(chatId as string, {
     skip: !chatId,
   });
@@ -30,15 +30,15 @@ export default function ChatMessagesWrapper() {
         console.log("Message readed",response);
         socket?.emit("message-read", { chatId });
       });
-    // socket?.on("send-message", () => {
-    //   setAsRead(chatId as string)
-    //     .unwrap()
-    //     .then((response) => {
-    //       console.log(response);
-    //       socket?.emit("message-read", { chatId });
-    //     });
-    //   dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
-    // });
+    socket?.on("send-message",() => {
+      dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]))
+      setAsRead(chatId as string)
+        .unwrap()
+        .then((response) => {
+          console.log(response);
+          socket?.emit("message-read", { chatId });
+        });
+    });
   }, []);
   useEffect(() => {
     if (!messages) return;

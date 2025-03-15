@@ -90,9 +90,8 @@ export const chatApi = createApi({
           : [{ type: "chats", id: "LIST" }],
     }),
     getUnreadMessages: builder.query<ApiResponse, GetUnreadMessage>({
-      query: ({ chatId, messageId }) => ({
+      query: ({ chatId }) => ({
         url: `/chat/${chatId}/read`,
-        params: { messageId },
       }),
       providesTags: (result) =>
         result?.messages

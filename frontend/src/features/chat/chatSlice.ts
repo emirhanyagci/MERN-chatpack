@@ -6,6 +6,7 @@ export interface Message {
   _id: string;
   sender: User;
   message: string;
+  readByAll: boolean;
   createdAt: Date;
 }
 export interface Chat {

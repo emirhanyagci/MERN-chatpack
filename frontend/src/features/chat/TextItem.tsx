@@ -5,8 +5,6 @@ import { selectUser } from "../user/userSlice";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Check, CheckCheck } from "lucide-react";
-import { useGetUnreadMessagesQuery } from "@/services/chatApi";
-import { useParams } from "react-router-dom";
 
 export default function TextItem({
   message,
@@ -17,12 +15,9 @@ export default function TextItem({
 }) {
   const currentUser = useSelector(selectUser);
   const isSender = message?.sender._id === currentUser._id;
-  const { chatId } = useParams();
-
-  const { data, isLoading } = useGetUnreadMessagesQuery({
-    chatId: chatId as string,
-    messageId: message._id as string,
-  });
+  console.log("textitem message",message);
+  
+  
 
   return (
     <li
@@ -43,7 +38,7 @@ export default function TextItem({
 
           {isSender && (
             <div>
-              {(data?.messages.length as number) == 0 && !isLoading ? (
+              { message.readByAll ? (
                 <CheckCheck size={15} className="text-primary" />
               ) : (
                 <Check size={15} />
