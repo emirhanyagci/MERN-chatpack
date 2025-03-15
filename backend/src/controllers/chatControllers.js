@@ -5,6 +5,7 @@ const Chat = require("../models/Chat");
 const setSignedUrl = require("../utils/setSignedUrl");
 const { UnreadMessage } = require("../models/Message");
 const { log } = require("node:console");
+const {Message} = require("../models/Message");
 
 // @desc get chat details
 // @route GET /chat/:chatId
@@ -162,6 +163,18 @@ exports.setAsRead = asyncHandler(async (req, res, next) => {
     chat: chatId,
     member: userId,
   }).exec();
+  //check if all members read the message
+  const unreadMessagesByAllMember = await UnreadMessage.find({
+    chat: chatId,
+  }).exec();
+
+  console.log("unread",unreadMessagesByAllMember.length == 0);
+  
+  if(unreadMessagesByAllMember.length == 0){
+     await Message.updateMany({ chat: chatId,readByAll:false },{readByAll:true}).exec();
+  }
+
+
   return res.json({
     message: "Successfully marked as read",
     readedCount: deletedUnreadMessages.deletedCount,
@@ -172,12 +185,8 @@ exports.setAsRead = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.getUnreadMessages = asyncHandler(async (req, res, next) => {
   const chatId = req.params.chatId;
-  const messageId = req.query.messageId;
   const userId = req.user.userId;
-  const unreadMessages = await UnreadMessage.find({
-    chat: chatId,
-    message: messageId,
-  }).exec();
+
   const chat = await Chat.findById(chatId).exec();
 
   if (!chat.members.includes(userId)) {
@@ -185,6 +194,13 @@ exports.getUnreadMessages = asyncHandler(async (req, res, next) => {
       .status(403)
       .json({ message: "You are not a member of this chat" });
   }
+  const unreadMessages = await UnreadMessage.find({
+    chat: chatId,
+  }).populate({
+    path: "message",
+    match: { sender: userId }, 
+  }).exec();
+
   return res.json({
     message: "Successfully",
     messages: unreadMessages,
