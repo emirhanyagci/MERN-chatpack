@@ -79,7 +79,7 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.body
 
   const blockerUser = await User.findById(blockerId).populate("blockList").exec();
-  const blockedUser = await User.findById(userId).exec();
+  const blockedUser = await User.findById(userId).populate("blockedList").exec();
 
   if (!blockedUser || !blockerUser) {
     return res.status(404).json({
@@ -92,9 +92,11 @@ exports.blockUser = asyncHandler(async (req, res, next) => {
       message: "User already blocked"
     })
   }
+  blockedUser.blockedList.push(blockerUser)
   blockerUser.blockList.push(blockedUser);
+  blockedUser.save()
   blockerUser.save()
-  return res.json({ message: "Successfully", blockerUser });
+  return res.json({ message: "Successfully", blockedUser, blockerUser });
 
 });
 // @desc Block user
@@ -105,11 +107,14 @@ exports.unblockUser = asyncHandler(async (req, res, next) => {
   const { userId } = req.body
 
   const blockerUser = await User.findById(blockerId).populate("blockList").exec();
+  const blockedUser = await User.findById(userId).populate("blockedList").exec();
 
   newBlockList = blockerUser.blockList.filter((user) => String(user._id) !== userId);
-
+  newBlockedList = blockedUser.blockedList.filter((user) => String(user._id) !== blockerId);
   blockerUser.blockList = newBlockList;
+  blockedUser.blockedList = newBlockedList;
   blockerUser.save()
-  return res.json({ message: "Successfully unblocked" });
+  blockedUser.save()
+  return res.json({ message: "Successfully unblocked", blockedUser, blockerUser });
 
 });

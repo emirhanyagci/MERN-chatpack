@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    blockedList: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ]
   },
   { versionKey: false }
 );
