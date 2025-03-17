@@ -58,7 +58,7 @@ export default function ChatInfoModal({ chat }: { chat: Chat }) {
             </div>
           </div>
           <div className="space-x-2">
-            <Button variant="outline">Report User</Button>
+            {/* <Button variant="outline">Report User</Button> */}
             <Button variant="destructive">Block User</Button>
           </div>
         </div>

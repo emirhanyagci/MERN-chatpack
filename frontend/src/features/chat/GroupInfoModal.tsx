@@ -74,11 +74,11 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
               <ul className="max-h-60">
                 {groupMembers.map((user, index) => (
                   <div key={index} className="flex justify-between">
-                    <li className="flex items-center" key={user._id}>
+                    <li className="flex w-full items-center" key={user._id}>
                       <UserCard user={user} withRole={true} />
                     </li>
                     <div className="flex flex-col gap-1">
-                      <Button className="text-primary-foreground">
+                      <Button variant="outline" className="">
                         Make Manager
                       </Button>
                       <ConfirmDialog
@@ -86,7 +86,7 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
                           console.log("kicked");
                         }}
                       >
-                        <Button variant="destructive">Kick</Button>
+                        <Button variant="ghost">Kick</Button>
                       </ConfirmDialog>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ export default function GroupInfoModal({ group }: { group: Chat }) {
             </ScrollArea>
           </div>
           <div className="space-x-2">
-            <Button variant="outline">Report Group</Button>
+            {/* <Button variant="outline">Report Group</Button> */}
             <ConfirmDialog
               onConfirm={() => {
                 console.log("confirmed leave");

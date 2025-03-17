@@ -19,7 +19,8 @@ export default function ChatWindow() {
 
   useEffect(() => {
     function onReadMessage(chatId: string) {
-      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: chatId }, { type: "messages", id: "LIST" }]))
+      console.log(chatId);
+      dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]))
     }
 
     socket?.on("read-message", ({ chatId }) => {
@@ -36,6 +37,7 @@ export default function ChatWindow() {
     setAsRead(chatId as string)
       .unwrap()
       .then(() => {
+        dispatch(chatApi.util.invalidateTags([{ type: "chats", id: chatId }]));
         socket?.emit("message-read", { chatId });
       });
     function onSendMessage(args: { chatId: string }) {
@@ -49,7 +51,7 @@ export default function ChatWindow() {
         setAsRead(chatId as string)
           .unwrap()
           .then(() => {
-            dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }]));
+            dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }, { type: "chats", id: chatId }]));
             socket?.emit("message-read", { chatId });
           });
       }
