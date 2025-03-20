@@ -24,11 +24,14 @@ exports.getCurrentUser = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.searchUser = asyncHandler(async (req, res, next) => {
   const search = req.query.search;
-  const rootUserId = req.user.userId;
+  const currentUserId = req.user.userId;
+  const currentUser = await User.findById(currentUserId).select("blockList blockedList");
+  const blockedUsers = [...currentUser.blockList, ...currentUser.blockedList];
+
   const query = new RegExp(search, "i", "g");
   const users = await User.find({
     $or: [{ username: query }, { email: query }],
-    _id: { $ne: rootUserId },
+    _id: { $nin: [...blockedUsers, currentUserId] }
   })
     .limit(20)
     .select("-password");
@@ -38,13 +41,7 @@ exports.searchUser = asyncHandler(async (req, res, next) => {
   }
 
   for (let user of users) {
-    const getObjectParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: user.avatar,
-    };
-    const command = new GetObjectCommand(getObjectParams);
-    const avatarUrl = await getSignedUrl(s3, command, { expiresIn: 1200 });
-    user.avatar = avatarUrl;
+    user.avatar = await setSignedUrl(user.avatar);
   }
 
   return res.json({

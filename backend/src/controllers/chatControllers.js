@@ -105,7 +105,8 @@ exports.createNewGroup = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.getChatHistory = asyncHandler(async (req, res, next) => {
   const userId = req.user.userId;
-
+  const currentUser = await User.findById(userId).select("blockList blockedList");
+  const blockedUsers = [...currentUser.blockList, ...currentUser.blockedList];
   const chats = await Chat.find({ members: userId })
     .populate({ path: "members lastMessage", select: "-password", clone: true })
     .lean()
