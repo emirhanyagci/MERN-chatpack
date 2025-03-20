@@ -45,7 +45,7 @@ Chatpack is a real-time messaging application built using the MERN stack (MongoD
 
 ## Installation
 
-Install Packages
+#### Install Packages
 ```shell
 cd backend
 yarn
@@ -53,7 +53,7 @@ cd ..
 cd frontend
 yarn
 ```
-Set environment variables
+#### Set environment variables
 
 - For `/frontend` directory you don't need to change anything, but if you change port you have to reconfigure to docker files.
 
@@ -77,7 +77,9 @@ Set environment variables
     AWS_URL=
     ```
 
-Run application
+#### Run application
+
+
 
 ```shell
 cd backend
@@ -86,9 +88,10 @@ yarn dev
 cd frontend
 yarn dev
 ```
-
-Run application with Docker
+and go `http://localhost:5173`
+#### Run application with Docker
 
 ```shell
 docker compose up
 ```
+and go `http://localhost:5000`
