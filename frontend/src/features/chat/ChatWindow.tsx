@@ -40,27 +40,6 @@ export default function ChatWindow() {
         dispatch(chatApi.util.invalidateTags([{ type: "chats", id: chatId }]));
         socket?.emit("message-read", { chatId });
       });
-    function onSendMessage(args: { chatId: string }) {
-      dispatch(chatApi.util.invalidateTags([{ type: "chats", id: args.chatId }]))
-      console.log("args.chatId", args.chatId)
-      console.log("chatId", chatId)
-      console.log(args.chatId == chatId);
-
-      if (args.chatId == chatId) {
-
-        setAsRead(chatId as string)
-          .unwrap()
-          .then(() => {
-            dispatch(chatApi.util.invalidateTags([{ type: "messages", id: "LIST" }, { type: "chats", id: chatId }]));
-            socket?.emit("message-read", { chatId });
-          });
-      }
-    }
-    socket?.on("send-message", onSendMessage);
-
-    return () => {
-      socket?.off("send-message", onSendMessage);
-    }
 
   }, [chatId]);
 
