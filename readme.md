@@ -9,14 +9,23 @@ Chatpack is a real-time messaging application built using the MERN stack (MongoD
 #### Key Features:
 
 ✅ **Create Private Chats & Groups** – Users can initiate one-on-one conversations or form group chats.
+
 ✅ **Real-Time Messaging** – Messages are instantly delivered using WebSocket connections.
+
 ✅ **Persistent Chat History** – Conversations are stored in MongoDB for easy retrieval.
+
 🛠️ **Emoji and File** – Users can send emoji and file.
+
 🛠️ **Block Users** – Users can block/unblock others for a safer experience.
+
 🛠️ **Update User Settings** – Customize profile details and preferences.
+
 🛠️ **Form Validations** – Ensures secure and accurate input across the app.
+
 🛠️ **Cache Mechanism** – Implementation cache mechanism using redis.
+
 🛠️ **Multi-Language Support** – Choose your preferred language for a better user experience.
+
 
 #### Tech Stack:
 
