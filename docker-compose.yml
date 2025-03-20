@@ -13,9 +13,6 @@ services:
   frontend:
     build: 
       context: ./frontend
-      args:
-        - VITE_BASE_URL=http://localhost:3000
-        - VITE_NODE_ENV=development
     ports:
       - "5000:80"
     depends_on:
