@@ -7,6 +7,9 @@ const { logger } = require("./middleware/logger");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const { app, server } = require("./socket/socket");
+if (process.env.TRUST_PROXY === "1") {
+  app.set("trust proxy", 1);
+}
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(bodyParser.json());

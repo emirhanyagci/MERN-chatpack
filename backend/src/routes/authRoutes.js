@@ -7,8 +7,12 @@ const {
   logout,
 } = require("../controllers/authControllers");
 const upload = require("../middleware/multerUpload");
-router.post("/login", login);
-router.post("/signup", upload.single("avatar"), signup);
+const {
+  authSignupLimiter,
+  authLoginLimiter,
+} = require("../middleware/rateLimiters");
+router.post("/login", authLoginLimiter, login);
+router.post("/signup", authSignupLimiter, upload.single("avatar"), signup);
 router.post("/refresh", refresh);
 router.post("/logout", logout);
 
