@@ -15,6 +15,7 @@ import { useState } from "react";
 import { setSession } from "../user/userSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 export default function LoginTab() {
   const [login, { isLoading }] = useLoginMutation();
   const [email, setEmail] = useState("");
@@ -29,10 +30,21 @@ export default function LoginTab() {
         setSession({ accessToken: accessToken as string, isAuthed: true }),
       );
       navigate("/home");
-      //TOAST
     } catch (e) {
-      //TOAST
-      console.log(e);
+      const err = e as {
+        data?: { message?: string };
+        error?: string;
+        status?: number;
+      };
+      const message =
+        err?.data?.message ??
+        err?.error ??
+        "Login failed. Please check your credentials and try again.";
+      toast({
+        variant: "destructive",
+        title: "Login failed",
+        description: message,
+      });
     }
   }
   return (

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 
 import { useState } from "react";
 import { useSignupMutation } from "@/services/authApi";
+import { toast } from "@/components/ui/use-toast";
 
 export default function SignupTab({
   setTab,
@@ -34,10 +35,19 @@ export default function SignupTab({
         avatarFile,
       }).unwrap();
       setTab("login");
-      //TOAST
     } catch (e) {
-      //TOAST
-      console.log(e);
+      const err = e as {
+        data?: { message?: string };
+        error?: string;
+        status?: number;
+      };
+      const message =
+        err?.data?.message ?? err?.error ?? "Signup failed. Please try again.";
+      toast({
+        variant: "destructive",
+        title: "Signup failed",
+        description: message,
+      });
     }
   }
   return (

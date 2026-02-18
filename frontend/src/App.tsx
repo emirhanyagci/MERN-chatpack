@@ -9,6 +9,7 @@ import { useMediaQuery } from "react-responsive";
 import SettingsWindow from "@/features/user/SettingsWindow";
 import PrivacyWindow from "@/features/user/PrivacyWindow";
 import Auth from "@/pages/Auth";
+import { Toaster } from "@/components/ui/toaster";
 function App() {
   const isMin768px = useMediaQuery({ query: "(min-width: 768px)" });
 
@@ -28,6 +29,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <Toaster />
     </ThemeProvider>
   );
 }
