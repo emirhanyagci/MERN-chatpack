@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const s3 = require("../aws/client");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
@@ -53,6 +53,9 @@ exports.signup = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
 
   const avatar = req.file;
+  if (!avatar) {
+    return res.status(400).json({ message: "Avatar is required" });
+  }
 
   const duplicateUser = await User.findOne({ email }).exec();
   if (duplicateUser) {
@@ -61,33 +64,58 @@ exports.signup = asyncHandler(async (req, res, next) => {
     });
   }
 
-  const avatarBuffer = await sharp(avatar.buffer).resize(128, 128).toBuffer();
   const fileName = getRandomFileName(avatar.originalname);
+  const key = `avatars/${fileName}`;
+  let uploaded = false;
 
-  const command = new PutObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: fileName,
-    Body: avatarBuffer,
-    ContentType: avatar.mimetype,
-  });
+  try {
+    const avatarBuffer = await sharp(avatar.buffer, {
+      failOnError: true,
+      limitInputPixels: 4096 * 4096,
+    })
+      .resize(128, 128, { fit: "cover" })
+      .toBuffer();
 
-  await s3.send(command);
-
-  const hashedPw = await bcrypt.hash(password, 12);
-  const user = await User.create({
-    username,
-    email,
-    password: hashedPw,
-    avatar: fileName,
-  });
-  if (!user) {
-    return res.status(400).json({
-      message: "Invalid user data received",
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+      Body: avatarBuffer,
+      ContentType: avatar.mimetype,
+      ServerSideEncryption: process.env.AWS_SSE || "AES256",
     });
-  } else {
+
+    await s3.send(command);
+    uploaded = true;
+
+    const hashedPw = await bcrypt.hash(password, 12);
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPw,
+      avatar: key,
+    });
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid user data received",
+      });
+    }
     return res.status(201).json({
       message: "User successfully created",
     });
+  } catch (err) {
+    if (uploaded) {
+      try {
+        await s3.send(
+          new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: key,
+          })
+        );
+      } catch (_) {
+        // best-effort cleanup
+      }
+    }
+    return next(err);
   }
 });
 
