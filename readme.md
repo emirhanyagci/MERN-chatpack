@@ -1,3 +1,4 @@
+> Note: The backend is hosted on Render and may go to sleep when inactive. The first request can take a few minutes to respond while the server wakes up.
 # MERN Stack Chat App - Chatpack (Still in development)
 
 
